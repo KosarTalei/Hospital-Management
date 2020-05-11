@@ -1,61 +1,101 @@
 package ir.ac.kntu.menu;
 
-public class Admin extends User{
+import ir.ac.kntu.logic.Hospital;
 
-    public Admin(String username, String password,String role){
-        super(username,password,"admin");
+import static ir.ac.kntu.ScannerWrapper.getInput;
+
+public class Admin {
+    public enum Option{
+        ADMIN,SECURITY,PATIENT,EXIT, UNDEFINED
+    }
+    private Hospital hospital;
+
+    private User user;
+
+    public Admin(){
     }
 
-    @Override
+    public Admin(String userName, String password,String role){
+        this.user = new User(userName,password,"Admin");
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
+    }
+
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public Admin signAdmin(){
+
+        String prompt="Enter the userName:";
+        String userName = getInput(prompt);
+        prompt="Enter the password:";
+        String password = getInput(prompt);
+
+        Admin admin = new Admin(userName,password,"admin");
+        return admin;
+    }
+
+    private void setPassword(String password) {
+        user.setPassword(password);
+    }
+
+    private void setUserName(String userName) {
+        user.setUserName(userName);
+    }
+
     public boolean login(String userName,String password) {
-        System.out.println(getUsers());
-        System.out.println("+"+correctPassword(password));
-        System.out.println("++"+correctUsername(userName));
+
         final boolean isAuthenticated = correctPassword(password) && correctUsername(userName);
         final boolean isAuthorized = isAllowedToDoThis();
 
         return isAuthenticated && isAuthorized;
     }
 
-    private boolean isAllowedToDoThis(){
-		return true;
+    private boolean isAllowedToDoThis() { 
+	    return true;
 	}
 
-    @Override
     public boolean correctPassword(String password) {
-        for(int i=0;i<getUsers().size();i++){
-            if((getUsers().get(i)).getPassword().equals(password)){
+        for (Admin admin : hospital.getAdmins()) {
+            if (user.getPassword().equals(password)) {
                 return true;
             }
         }
         return false;
     }
 
-    @Override
+    private Object getPassword() {
+        return user.getPassword();
+    }
+
     public boolean correctUsername(String userName) {
-        for(int i=0;i<getUsers().size();i++){
-            if((getUsers().get(i)).getUserName().equals(userName)){
+        for (Admin admin : hospital.getAdmins()) {
+            if (user.getUserName().equals(userName)) {
                 return true;
             }
         }
         return false;
     }
-    @Override
-    public boolean addUser(User user) {
-        if(!getUsers().contains(user)){
-            getUsers().add(user);
+
+    public boolean addUser(Admin admin) {
+        System.out.println("*");
+        if(!hospital.getAdmins().contains(admin)){
+            hospital.getAdmins().add(admin);
             return true;
         }
         return false;
     }
 
-    @Override
-    public User getUser(String userName) {
-        for(int i=0;i<getUsers().size();i++){
-            if((getUsers().get(i)).getUserName().equals(userName)){
-                return getUsers().get(i);
+    public Admin getUser(String userName) {
+        for (Admin admin : hospital.getAdmins()) {
+            if (user.getUserName().equals(userName)) {
+                return admin;
             }
         }
         return null;
     }
+
 }

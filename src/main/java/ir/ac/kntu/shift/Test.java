@@ -1,11 +1,44 @@
 package ir.ac.kntu.shift;
 
+import ir.ac.kntu.Date;
 import ir.ac.kntu.Doctor;
+import ir.ac.kntu.Patient;
+import ir.ac.kntu.department.Department;
+import ir.ac.kntu.department.Main;
+import ir.ac.kntu.department.Room;
+import ir.ac.kntu.logic.Hospital;
+import ir.ac.kntu.logic.HospitalProgram;
+import ir.ac.kntu.logic.Pay;
+import ir.ac.kntu.menu.Admin;
 
 import java.util.ArrayList;
 
 public class Test {
     public static void main (String[] args) {
+        HospitalProgram hospitalProgram = new HospitalProgram();
+        Hospital hospital = hospitalProgram.defineHospital();
+
+        Admin admin = new Admin();
+        Admin admin1 = admin.signAdmin();
+        admin1.setHospital(hospital);
+        admin1.addUser(admin);
+
+        Patient patient = new Patient("123","KOSAR","TALEI");
+        Department main = new Main();
+        ((Main) main).addPatient(patient);
+        Room room = new Room("1234",3,main);
+        ((Main) main).addRoom(room);
+        Date date = new Date(1399,2,2,13);
+        patient.setJoinDate(date);
+
+        patient.setInsurance("TAMIN");
+        patient.setRoom(room);
+        patient.setDepartment(main);
+
+        hospitalProgram.main(args);
+
+        Pay pay = new Pay();
+        pay.findPay(patient);
 
         ArrayList<Object> doctorsList = new ArrayList<Object>();
 
@@ -38,6 +71,5 @@ public class Test {
         master.generateSchedule(doctorsList);
         doc1.printSchedule();
         doc2.printSchedule();
-
     }
 }

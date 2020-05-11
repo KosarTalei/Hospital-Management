@@ -12,6 +12,9 @@ public abstract class Person {
     private  String lastName;
     private String id;
     private String position;
+    Person(){
+
+    }
 
     Person( String id,String firstName,String lastName,String position){
         this.id = id;
@@ -41,6 +44,10 @@ public abstract class Person {
 
     public ArrayList<Patient> getPatients() {
         return patients;
+    }
+
+    public void remove(Patient patient){
+        patients.remove(patient);
     }
 
     public ArrayList<Doctor> getDoctors() {

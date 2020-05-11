@@ -1,8 +1,28 @@
 package ir.ac.kntu.menu;
+import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.logic.HospitalProgram;
 
-public class AdminMenu implements Menu {
-    @Override
-    public void show() {
+public class AdminMenu {
+    private static AdminMenu instance = new AdminMenu();
+
+    private AdminMenu() {
+    }
+
+    public static AdminMenu getInstance() {
+        return instance;
+    }
+
+    public Admin.Option getOption() {
+        Admin.Option[] options = Admin.Option.values();
+        int userInput = ScannerWrapper.getInstance().nextInt();
+        userInput--;
+        if (userInput >= 0 && userInput < options.length) {
+            return options[userInput];
+        }
+        return Admin.Option.UNDEFINED;
+    }
+
+    public void printTheMenu() {
         System.out.println("***********************************");
         System.out.println("Admin options:");
         System.out.println("1-Add new admin");

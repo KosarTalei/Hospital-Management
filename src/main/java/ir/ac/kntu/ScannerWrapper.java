@@ -48,7 +48,13 @@ public class ScannerWrapper {
         } catch (IOException e) {
             System.out.println("IOException: " + e);
         }finally {
-            System.out.println("");
+            if (line!=null) {
+                try {
+                    line.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }            
         }
         return input;
     }

@@ -12,6 +12,7 @@ public class Doctor extends Person implements ShiftManagement {
     private Schedule availability;
     private int maxHrs;
     private int minHrs;
+    private ArrayList<Patient> doctorPatientList;
     private ArrayList<Object> scheduleHolder = new ArrayList<Object>(2);
 
     public Doctor(String id, String firstName, String lastName, int maxHrs, int minHrs) {
@@ -105,5 +106,8 @@ public class Doctor extends Person implements ShiftManagement {
                 System.out.println("        Time Out: " + span.getTimeOut());
             }
         }
+    }
+    public void addPatientsToDoctor(Patient patient) {
+        this.doctorPatientList.add(patient);
     }
 }

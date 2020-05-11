@@ -3,18 +3,18 @@ package ir.ac.kntu.department;
 import ir.ac.kntu.Patient;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-public abstract class Room extends Department{
+public class Room{
 
+    private Department department;
     private boolean available;
     private int bedsNum;
     private String roomNum;
     private ArrayList<Patient> occupants;
 
     public Room(String roomNum,int bedsNum,Department department) {
-
-        super(department.getName());
-
+        this.department = department;
         this.roomNum = roomNum;
         this.bedsNum = bedsNum;
         setAvailable(false);
@@ -27,6 +27,10 @@ public abstract class Room extends Department{
 
     public String getRoomNum() {
         return roomNum;
+    }
+
+    public int getBedsNum() {
+        return bedsNum;
     }
 
     public void setOccupants(ArrayList<Patient> occupants) {
@@ -52,5 +56,32 @@ public abstract class Room extends Department{
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Room room = (Room) o;
+        return available == room.available &&
+                Objects.equals(roomNum, room.roomNum);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(available, roomNum);
+    }
+
+    public String toString() {
+        return "Room{" +
+                "available=" + available +
+                ", occupants=" + occupants +
+                ", bedsNum=" + bedsNum +
+                ", roomNum=" + roomNum +
+                '}';
     }
 }

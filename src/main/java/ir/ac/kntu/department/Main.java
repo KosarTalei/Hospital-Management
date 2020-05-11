@@ -11,7 +11,7 @@ public class Main extends Department {
     }
 
     @Override
-    boolean addPerson(Person person) {
+    public boolean addPerson(Person person) {
         if (!getPersons().contains(person)) {
             getPersons().add(person);
             return true;
@@ -20,7 +20,7 @@ public class Main extends Department {
     }
 
     @Override
-    Person getPerson(String personId) {
+    public Person getPerson(String personId) {
         for (Person person : getPersons()) {
             if (person.getId().equals(personId)) {
                 return person;
@@ -30,7 +30,7 @@ public class Main extends Department {
     }
 
     @Override
-    boolean addPatient(Patient patient) {
+    public boolean addPatient(Patient patient) {
         if (!getPatients().contains(patient)) {
             getPatients().add(patient);
             return true;
@@ -39,7 +39,7 @@ public class Main extends Department {
     }
 
     @Override
-    Patient getPatient(String patientId) {
+    public Patient getPatient(String patientId) {
         for (Patient patient : getPatients()) {
             if (patient.getId().equals(patientId)) {
                 return patient;
@@ -49,7 +49,7 @@ public class Main extends Department {
     }
 
     @Override
-    boolean addNurse(Nurse nurse) {
+    public boolean addNurse(Nurse nurse) {
         if (!getNurses().contains(nurse)) {
             getNurses().add(nurse);
             return true;
@@ -58,7 +58,7 @@ public class Main extends Department {
     }
 
     @Override
-    Nurse getNurse(String nurseId) {
+    public Nurse getNurse(String nurseId) {
         for (Nurse nurse: getNurses()) {
             if (nurse.getId().equals(nurseId)) {
                 return nurse;
@@ -68,7 +68,7 @@ public class Main extends Department {
     }
 
     @Override
-    boolean addDoctor(Doctor doctor) {
+    public boolean addDoctor(Doctor doctor) {
         if (!getDoctors().contains(doctor)) {
             getDoctors().add(doctor);
             return true;
@@ -77,7 +77,7 @@ public class Main extends Department {
     }
 
     @Override
-    Doctor getDoctor(String doctorId) {
+    public Doctor getDoctor(String doctorId) {
         for (Doctor doctor : getDoctors()) {
             if (doctor.getId().equals(doctorId)) {
                 return doctor;
@@ -87,7 +87,7 @@ public class Main extends Department {
     }
 
     @Override
-    boolean addRoom(Room room) {
+    public boolean addRoom(Room room) {
         if (!getRooms().contains(room)) {
             getRooms().add(room);
             return true;
@@ -96,7 +96,7 @@ public class Main extends Department {
     }
 
     @Override
-    Room getRoom(String roomId) {
+    public Room getRoom(String roomId) {
         for (Room room : getRooms()) {
             if (room.getRoomNum().equals(roomId)) {
                 return room;
@@ -104,9 +104,13 @@ public class Main extends Department {
         }
         return null;
     }
-
     @Override
-    boolean removeRoom(String roomId) {
+    public boolean removeRoom(String roomId){
+        Room room = getRoom(roomId);
+        if (!getRooms().contains(room)) {
+            getRooms().remove(room);
+            return true;
+        }
         return false;
     }
 }

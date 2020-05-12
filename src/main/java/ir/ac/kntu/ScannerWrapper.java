@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class ScannerWrapper {
 
     private static ScannerWrapper instance = new ScannerWrapper();
+    private BufferedReader line;
     private Scanner scanner;
 
     private ScannerWrapper() {
@@ -31,14 +32,19 @@ public class ScannerWrapper {
     }
 
     public void close() {
+        if (line!=null) {
+            try {
+                line.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         scanner.close();
     }
 
-    public static String getInput(String prompt) {
-
+    public String getInput(String prompt) {
         String input = null;
         System.out.print(prompt + " ");
-        BufferedReader line =null;
         try {
             line = new BufferedReader(new InputStreamReader(System.in));
             input = line.readLine();
@@ -47,14 +53,6 @@ public class ScannerWrapper {
             }
         } catch (IOException e) {
             System.out.println("IOException: " + e);
-        }finally {
-            if (line!=null) {
-                try {
-                    line.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }            
         }
         return input;
     }

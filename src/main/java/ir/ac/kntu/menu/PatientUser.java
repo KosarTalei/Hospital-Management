@@ -4,17 +4,19 @@ import ir.ac.kntu.Patient;
 import ir.ac.kntu.logic.Hospital;
 
 public class PatientUser {
+
+    public enum Option{
+        DATA,SHIFT,INVOICE,EXIT, UNDEFINED
+    }
+
     private Hospital hospital;
     private User user;
 
-    public PatientUser(Object obj){
-        User user = new User((Patient)obj);
-        this.user = user;
+    public PatientUser(Patient patient) {
+        this.user = new User(patient);
     }
 
     public boolean login(String userName,String password) {
-        System.out.println("+"+correctPassword(password));
-        System.out.println("++"+correctUsername(userName));
         final boolean isAuthenticated = correctPassword(password) && correctUsername(userName);
         final boolean isAuthorized = isAllowedToDoThis();
 

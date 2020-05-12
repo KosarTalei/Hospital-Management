@@ -1,5 +1,7 @@
 package ir.ac.kntu.menu;
-import ir.ac.kntu.logic.HospitalProgram;
+
+import ir.ac.kntu.Patient;
+import ir.ac.kntu.ScannerWrapper;
 
 public class PatientMenu {
     private static PatientMenu instance = new PatientMenu();
@@ -11,13 +13,24 @@ public class PatientMenu {
         return instance;
     }
 
-    public void printTheMenu(){
+    public Patient.Option getOption() {
+        Patient.Option[] options = Patient.Option.values();
+        int userInput = ScannerWrapper.getInstance().nextInt();
+        userInput--;
+        if (userInput >= 0 && userInput < options.length) {
+            return options[userInput];
+        }
+        return Patient.Option.UNDEFINED;
+    }
+
+    public void printTheMenu() {
         System.out.println("***********************************");
-        System.out.println("Menu:");
-        System.out.println("1.Your data");
-        System.out.println("2.Your doctor shifts");
-        System.out.println("3.Receive invoice");
-        System.out.println("4-Exit.");
+        System.out.println("Options:");
+        System.out.println("1-Add new Patient");//sign
+        System.out.println("2-See patient data");
+        System.out.println("3-Change patient data");
+        System.out.println("4-Invoice patient");
+        System.out.println("5-Exit.");
         System.out.println("***********************************");
         System.out.print("\r\nPlease select your choice: ");
     }

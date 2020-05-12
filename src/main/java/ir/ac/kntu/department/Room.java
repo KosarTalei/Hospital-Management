@@ -13,12 +13,33 @@ public class Room{
     private String roomNum;
     private ArrayList<Patient> occupants;
 
+    private boolean hasTV;
+    private boolean hasRefrigerator;
+    private boolean hasAirConditioner;
+    private RoomFare roomClass;
+
     public Room(String roomNum,int bedsNum,Department department) {
         this.department = department;
         this.roomNum = roomNum;
         this.bedsNum = bedsNum;
         setAvailable(false);
         occupants = new ArrayList<Patient>();
+    }
+
+    public void setHasAirConditioner(boolean hasAirConditioner) {
+        this.hasAirConditioner = hasAirConditioner;
+    }
+
+    public void setHasRefrigerator(boolean hasRefrigerator) {
+        this.hasRefrigerator = hasRefrigerator;
+    }
+
+    public void setHasTV(boolean hasTV) {
+        this.hasTV = hasTV;
+    }
+
+    public RoomFare getRoomClass() {
+        return roomClass;
     }
 
     public ArrayList<Patient> getOccupants() {

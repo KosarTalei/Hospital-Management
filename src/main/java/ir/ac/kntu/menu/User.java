@@ -1,8 +1,6 @@
 package ir.ac.kntu.menu;
 
-import java.util.List;
 import ir.ac.kntu.Patient;
-import ir.ac.kntu.Person;
 import ir.ac.kntu.logic.Hospital;
 
 public class User {
@@ -13,7 +11,6 @@ public class User {
     private String role;
 
     public User(){
-
     }
 
     public User(Patient patient){
@@ -43,12 +40,6 @@ public class User {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
-    //public abstract boolean login(String userName,String password);
-    //public abstract boolean addUser(User user);
-    //public abstract User getUser(String userName);
-    //public abstract boolean correctPassword(String password);
-    //public abstract boolean correctUsername(String userName);
 
     public boolean authenticate(String userName, String pass) {
         return this.userName.equals(userName) && this.password.equals(pass);

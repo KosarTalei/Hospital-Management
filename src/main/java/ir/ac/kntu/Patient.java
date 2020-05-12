@@ -2,17 +2,15 @@ package ir.ac.kntu;
 
 import ir.ac.kntu.department.Department;
 import ir.ac.kntu.department.Room;
-import ir.ac.kntu.menu.Security;
 import ir.ac.kntu.menu.User;
 
-import static ir.ac.kntu.ScannerWrapper.getInput;
-
 enum Disease{
-    BURN,STRIKE, ACCIDENT,ELSE;
+    Burn,Strike, Accident,Else;
 }
-
 public class Patient extends Person {
-
+    public enum Option{
+        NEW,SEE,CHANG,INVOICE,EXIT, UNDEFINED
+    }
     private User user;
 
     private Date joinDate;
@@ -26,6 +24,9 @@ public class Patient extends Person {
     private String nationalNum;
     private String insurance;
 
+
+    public Patient(){
+    }
     public Patient(String id, String firstName, String lastName) {
 
         super(id, firstName, lastName, "patient");
@@ -53,6 +54,10 @@ public class Patient extends Person {
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
     }
 
     public void setInsurance(String insurance) {

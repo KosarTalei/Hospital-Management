@@ -1,15 +1,15 @@
 package ir.ac.kntu.menu;
 
+import ir.ac.kntu.ScannerWrapper;
 import ir.ac.kntu.logic.Hospital;
-
-import static ir.ac.kntu.ScannerWrapper.getInput;
 
 public class Admin {
     public enum Option{
-        ADMIN,SECURITY,PATIENT,EXIT, UNDEFINED
+        SIGN_ADMIN,SIGN_SECURITY,SIGN_PATIENT,PATIENT_MENU,DOCTOR_MENU,NURSE_MENU,
+        DEPARTMENT_MENU,ROOM_MENU,SHIFT_MENU,EXIT, UNDEFINED
     }
-    private Hospital hospital;
 
+    private Hospital hospital;
     private User user;
 
     public Admin(){
@@ -28,11 +28,10 @@ public class Admin {
     }
 
     public Admin signAdmin(){
-
         String prompt="Enter the userName:";
-        String userName = getInput(prompt);
+        String userName = ScannerWrapper.getInstance().getInput(prompt);
         prompt="Enter the password:";
-        String password = getInput(prompt);
+        String password = ScannerWrapper.getInstance().getInput(prompt);
 
         Admin admin = new Admin(userName,password,"admin");
         return admin;
@@ -81,7 +80,6 @@ public class Admin {
     }
 
     public boolean addUser(Admin admin) {
-        System.out.println("*");
         if(!hospital.getAdmins().contains(admin)){
             hospital.getAdmins().add(admin);
             return true;
@@ -97,5 +95,4 @@ public class Admin {
         }
         return null;
     }
-
 }

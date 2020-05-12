@@ -12,8 +12,8 @@ public abstract class Person {
     private  String lastName;
     private String id;
     private String position;
-    Person(){
 
+    Person(){
     }
 
     Person( String id,String firstName,String lastName,String position){

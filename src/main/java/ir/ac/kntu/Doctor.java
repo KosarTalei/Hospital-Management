@@ -1,5 +1,7 @@
 package ir.ac.kntu;
 
+import ir.ac.kntu.Patient;
+import ir.ac.kntu.Person;
 import ir.ac.kntu.shift.Schedule;
 import ir.ac.kntu.shift.ShiftManagement;
 import ir.ac.kntu.shift.TimeSpan;

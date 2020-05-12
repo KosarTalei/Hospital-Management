@@ -2,10 +2,9 @@ package ir.ac.kntu.shift;
 
 import ir.ac.kntu.Doctor;
 import ir.ac.kntu.Nurse;
+import ir.ac.kntu.ScannerWrapper;
 
 import java.util.ArrayList;
-
-import static ir.ac.kntu.ScannerWrapper.getInput;
 
 public class MasterSchedule extends Schedule{
 
@@ -84,11 +83,11 @@ public class MasterSchedule extends Schedule{
     public void addMasterShift(MasterSchedule mSch) {
         System.out.println("0 Mon 1 Tue 2 Wed 3 Thr 4 Fri 5 Sat 6 Sun");
         String prompt ="Which day?";
-        int day = Integer.parseInt(getInput(prompt));
+        int day = Integer.parseInt(ScannerWrapper.getInstance().getInput(prompt));
         prompt= "Start time?";
-        float start = Integer.parseInt(getInput(prompt));
+        float start = Integer.parseInt(ScannerWrapper.getInstance().getInput(prompt));
         prompt ="End time?";
-        float end = Integer.parseInt(getInput(prompt));
+        float end = Integer.parseInt(ScannerWrapper.getInstance().getInput(prompt));
 
         TimeSpan tSpan = new TimeSpan(start, end);
         mSch.add(day, tSpan);

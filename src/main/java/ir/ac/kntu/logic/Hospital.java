@@ -12,7 +12,9 @@ import java.util.Objects;
 
 public class Hospital {
 
-    private User currentUser;
+    private Admin currentAdmin;
+    private Security currentSecurity;
+    private Patient currentPatient;
 
     private List<Admin> admins;
     private List<Security> securities;
@@ -38,12 +40,28 @@ public class Hospital {
         persons = new ArrayList<Person>();
     }
 
-    public User getCurrentUser() {
-        return currentUser;
+    public void setCurrentAdmin(Admin currentAdmin) {
+        this.currentAdmin = currentAdmin;
     }
 
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
+    public Admin getCurrentAdmin() {
+        return currentAdmin;
+    }
+
+    public void setCurrentPatient(Patient currentPatient) {
+        this.currentPatient = currentPatient;
+    }
+
+    public Patient getCurrentPatient() {
+        return currentPatient;
+    }
+
+    public void setCurrentSecurity(Security currentSecurity) {
+        this.currentSecurity = currentSecurity;
+    }
+
+    public Security getCurrentSecurity() {
+        return currentSecurity;
     }
 
     public List<Admin> getAdmins() {

@@ -2,6 +2,7 @@ package ir.ac.kntu;
 
 import ir.ac.kntu.Patient;
 import ir.ac.kntu.Person;
+import ir.ac.kntu.logic.Hospital;
 import ir.ac.kntu.shift.Schedule;
 import ir.ac.kntu.shift.ShiftManagement;
 import ir.ac.kntu.shift.TimeSpan;
@@ -9,7 +10,7 @@ import ir.ac.kntu.shift.TimeSpan;
 import java.util.ArrayList;
 
 public class Doctor extends Person implements ShiftManagement {
-
+    private Hospital hospital;
     private Schedule shiftsTaken;
     private Schedule availability;
     private int maxHrs;
@@ -31,17 +32,19 @@ public class Doctor extends Person implements ShiftManagement {
     }
 
     @Override
-    boolean addPerson(Person person) {
-        if (!getDoctors().contains(person)) {
-            getDoctors().add((Doctor) person);//?
+    public boolean addPerson(Person person) {
+        if (!hospital.getDoctors().contains(person)) {
+            hospital.getDoctors().add((Doctor) person);//?
+            System.out.println("doctor added successfully!");
             return true;
         }
+        System.out.println("doctor already exist!");
         return false;
     }
 
     @Override
-    Person getPerson(String personId) {
-        for (Doctor doctor : getDoctors()) {
+    public Person getPerson(String personId) {
+        for (Doctor doctor : hospital.getDoctors()) {
             if (doctor.getId().equals(personId)) {
                 return doctor;
             }

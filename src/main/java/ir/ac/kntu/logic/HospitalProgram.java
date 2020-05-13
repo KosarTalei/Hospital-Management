@@ -1,9 +1,6 @@
 package ir.ac.kntu.logic;
 
-import ir.ac.kntu.Doctor;
-import ir.ac.kntu.Patient;
-import ir.ac.kntu.Person;
-import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.*;
 import ir.ac.kntu.department.*;
 import ir.ac.kntu.menu.*;
 
@@ -94,13 +91,13 @@ public class HospitalProgram {
         PatientUserMenu.getInstance().printTheMenu();
         PatientUser.Option option= PatientUserMenu.getInstance().getOption();
         while (option != PatientUser.Option.EXIT) {
-            hospital = handlePatientOption(option,hospital);
+            hospital = handlePatientUserOption(option,hospital);
             PatientUserMenu.getInstance().printTheMenu();
             option = PatientUserMenu.getInstance().getOption();
         }
     }
 
-    public static Hospital handlePatientOption(PatientUser.Option option,Hospital hospital) {
+    public static Hospital handlePatientUserOption(PatientUser.Option option,Hospital hospital) {
         Patient patient = hospital.getCurrentPatient();
         switch (option){
             case DATA:
@@ -190,18 +187,50 @@ public class HospitalProgram {
             case SIGN_PATIENT:
                 Person person = getPerson(hospital);
                 break;
+            case PATIENT_MENU:
+                patientOption(hospital);
+                break;
             default:
                 System.out.println("Invalid choice!");
                 break;
         }
         return hospital;
     }
+    private static void patientOption(Hospital hospital) {
+        PatientMenu.getInstance().printTheMenu();
+        Patient.Option option= PatientMenu.getInstance().getOption();
+        while (option != Patient.Option.EXIT) {
+            hospital = handlePatientOption(option,hospital);
+            PatientMenu.getInstance().printTheMenu();
+            option = PatientMenu.getInstance().getOption();
+        }
+    }
+    public static Hospital handlePatientOption(Patient.Option option,Hospital hospital) {
+        switch (option){
+            case NEW:
+                PersonMng personMng = new PersonMng(hospital);
+                personMng.createPerson();
+                break;
+            case SEE:
+                String prompt = "Enter patient id:";
+                String id = ScannerWrapper.getInstance().getInput(prompt);
+                Patient patient = new Patient();
+                patient = (Patient)patient.getPerson(id);
+                System.out.println(patient);
+                break;
+            case CHANG:
 
+            default:
+                System.out.println("Invalid choice!");
+                break;
+        }
+        return hospital;
+    }
     private static void signSecurity(Hospital hospital) {
-        Security security = new Security();
-        security = security.sign();
-        security.setHospital(hospital);
-        if (security.addUser(security)){
+        SecurityUser securityUser = new SecurityUser();
+        securityUser = securityUser.sign();
+        securityUser.setHospital(hospital);
+        if (securityUser.addUser(securityUser)){
             System.out.println("Successfully signed!");
         }else {
             System.out.println("Security already signed!");
@@ -214,8 +243,8 @@ public class HospitalProgram {
         prompt="Enter the password:";
         String password = ScannerWrapper.getInstance().getInput(prompt);
 
-        Security security = new Security(userName, password, "Security");
-        hospital.setCurrentSecurity(security);
+        SecurityUser security = new SecurityUser(userName, password, "Security");
+        hospital.setCurrentSecurityUser(security);
         if(security.login(userName,password)){
             System.out.println("Security successfully defined.");
             securityOption(hospital);
@@ -227,15 +256,15 @@ public class HospitalProgram {
     private static void securityOption(Hospital hospital) {
         System.out.println("Security is successfully defined.");
         SecurityMenu.getInstance().printTheMenu();
-        Security.Option option= SecurityMenu.getInstance().getOption();
-        while (option != Security.Option.EXIT) {
+        SecurityUser.Option option= SecurityMenu.getInstance().getOption();
+        while (option != SecurityUser.Option.EXIT) {
             hospital = handleSecurityOption(option,hospital);
             SecurityMenu.getInstance().printTheMenu();
             option = SecurityMenu.getInstance().getOption();
         }
     }
 
-    public static Hospital handleSecurityOption(Security.Option option,Hospital hospital) {
+    public static Hospital handleSecurityOption(SecurityUser.Option option, Hospital hospital) {
         switch (option){
             case PATIENT:
                 String prompt="Enter the id:";

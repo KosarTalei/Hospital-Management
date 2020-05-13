@@ -4,9 +4,7 @@ import java.util.ArrayList;
 
 public abstract class Person {
 
-    private ArrayList<Patient> patients;
-    private ArrayList<Nurse> nurses;
-    private ArrayList<Doctor> doctors;
+    private PersonMng personMng;
 
     private String firstName;
     private  String lastName;
@@ -21,10 +19,6 @@ public abstract class Person {
         this.firstName = firstName;
         this.lastName = lastName;
         this.position = position;
-
-        doctors = new ArrayList<Doctor>();
-        nurses = new ArrayList<Nurse>();
-        patients = new ArrayList<Patient>();
     }
 
     public String getPosition() {
@@ -39,24 +33,8 @@ public abstract class Person {
         return lastName;
     }
 
-    abstract boolean addPerson(Person person);
-    abstract Person getPerson(String personId);
-
-    public ArrayList<Patient> getPatients() {
-        return patients;
-    }
-
-    public void remove(Patient patient){
-        patients.remove(patient);
-    }
-
-    public ArrayList<Doctor> getDoctors() {
-        return doctors;
-    }
-
-    public ArrayList<Nurse> getNurses() {
-        return nurses;
-    }
+    abstract public boolean addPerson(Person person);
+    abstract public Person getPerson(String personId);
 
     public String getId() {
         return id;

@@ -19,14 +19,6 @@ public class ScannerWrapper {
         return instance;
     }
 
-    public String next() {
-        return scanner.next();
-    }
-
-    public Double nextDouble() {
-        return scanner.nextDouble();
-    }
-
     public Integer nextInt() {
         return scanner.nextInt();
     }

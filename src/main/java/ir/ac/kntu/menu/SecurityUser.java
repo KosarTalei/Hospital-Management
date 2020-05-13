@@ -1,19 +1,20 @@
 package ir.ac.kntu.menu;
 
 import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.Security;
 import ir.ac.kntu.logic.Hospital;
 
-public class Security {
+public class SecurityUser {
     public enum Option{
         PATIENT,DOCTOR,NURSE,PERSONNEL,ROOM,EXIT,UNDEFINED
     }
-
+    private Security security;
     private Hospital hospital;
     private User user;
 
-    public Security(){
+    public SecurityUser(){
     }
-    public Security(String userName, String password,String role) {
+    public SecurityUser(String userName, String password, String role) {
         this.user = new User(userName,password,"Security");
     }
 
@@ -25,13 +26,13 @@ public class Security {
         return hospital;
     }
 
-    public Security sign(){
+    public SecurityUser sign(){
         String prompt="Enter the userName:";
         String userName = ScannerWrapper.getInstance().getInput(prompt);
         prompt="Enter the password:";
         String password = ScannerWrapper.getInstance().getInput(prompt);
 
-        Security security = new Security(userName,password,"Security");
+        SecurityUser security = new SecurityUser(userName,password,"Security");
         return security;
     }
 
@@ -46,16 +47,16 @@ public class Security {
 	    return true;
 	}
 
-    public boolean addUser(Security security) {
-        if(!hospital.getSecurities().contains(security)){
-            hospital.getSecurities().add(security);
+    public boolean addUser(SecurityUser security) {
+        if(!hospital.getSecuritiesUser().contains(security)){
+            hospital.getSecuritiesUser().add(security);
             return true;
         }
         return false;
     }
 
-    public Security getUser(String userName) {
-        for(Security security: hospital.getSecurities()){
+    public SecurityUser getUser(String userName) {
+        for(SecurityUser security: hospital.getSecuritiesUser()){
             if(user.getUserName().equals(userName)){
                 return security;
             }

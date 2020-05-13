@@ -66,7 +66,7 @@ public class Payment {
         Insurance insurance = Insurance.valueOf(booking.getCustomer().getInsurance());
         this.totalBill = insurance.sale(sum);
 
-        patient.remove(patient);
+        //patient.remove(patient);
         room.getOccupants().remove(patient);
 
         return totalBill;

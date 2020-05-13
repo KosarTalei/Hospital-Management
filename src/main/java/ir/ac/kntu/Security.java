@@ -7,18 +7,17 @@ import ir.ac.kntu.shift.TimeSpan;
 
 import java.util.ArrayList;
 
-public class Nurse extends Person implements ShiftManagement{
+public class Security extends Person implements ShiftManagement {
     private Hospital hospital;
+
     private Schedule shiftsTaken;
     private Schedule availability;
     private int maxHrs;
     private int minHrs;
-    private ArrayList<Patient> doctorPatientList;
     private ArrayList<Object> scheduleHolder = new ArrayList<Object>(2);
 
-    Nurse(String id, String firstName, String lastName, int maxHrs, int minHrs) {
-
-        super(id, firstName, lastName, "nurse");
+    public Security(String id, String firstName, String lastName,int maxHrs, int minHrs){
+        super(id, firstName, lastName, "security");
         this.maxHrs = maxHrs;
         this.minHrs = minHrs;
 
@@ -28,11 +27,10 @@ public class Nurse extends Person implements ShiftManagement{
         scheduleHolder.add(availability);
         scheduleHolder.add(shiftsTaken);
     }
-
     @Override
     public boolean addPerson(Person person) {
-        if (!hospital.getNurses().contains(person)) {
-            hospital.getNurses().add((Nurse) person);//?
+        if (!hospital.getSecurities().contains(person)) {
+            hospital.getSecurities().add((Security) person);//?
             return true;
         }
         return false;
@@ -40,16 +38,16 @@ public class Nurse extends Person implements ShiftManagement{
 
     @Override
     public Person getPerson(String personId) {
-        for (Nurse nurse : hospital.getNurses()) {
-            if (nurse.getId().equals(personId)) {
-                return nurse;
+        for (Security security : hospital.getSecurities()) {
+            if (security.getId().equals(personId)) {
+                return security;
             }
         }
         return null;
     }
     @Override
     public void addShift(int day, TimeSpan shiftTime, int scheduleNumber) {
-        Schedule temp = (Schedule)scheduleHolder.get(scheduleNumber);
+        Schedule temp = (Schedule) scheduleHolder.get(scheduleNumber);
         temp.add(day, shiftTime);
     }
     @Override
@@ -107,8 +105,5 @@ public class Nurse extends Person implements ShiftManagement{
                 System.out.println("        Time Out: " + span.getTimeOut());
             }
         }
-    }
-    public void addPatientsToDoctor(Patient patient) {
-        this.doctorPatientList.add(patient);
     }
 }

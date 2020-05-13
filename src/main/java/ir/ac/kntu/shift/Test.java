@@ -6,7 +6,6 @@ import ir.ac.kntu.Patient;
 import ir.ac.kntu.department.*;
 import ir.ac.kntu.logic.Hospital;
 import ir.ac.kntu.logic.HospitalProgram;
-import ir.ac.kntu.logic.Pay;
 import ir.ac.kntu.menu.Admin;
 
 import java.util.ArrayList;
@@ -19,7 +18,6 @@ public class Test {
         Admin admin1 = admin.signAdmin();
         admin1.setHospital(hospital);
         admin1.addUser(admin);*/
-
         Patient patient = new Patient("123","KOSAR","TALEI");
         Department main = new Main();
         ((Main) main).addPatient(patient);
@@ -36,6 +34,7 @@ public class Test {
         Payment payment = new Payment(booking);
         System.out.println(payment.pay(patient));
         //hospitalProgram.main(args);
+
         /*Pay pay = new Pay();
         pay.findPay(patient);*/
         /*ArrayList<Object> doctorsList = new ArrayList<Object>();
@@ -43,10 +42,12 @@ public class Test {
         Doctor doc2 = new Doctor("456", "Karim", "Rami", 30, 40);
         doctorsList.add(doc1);
         doctorsList.add(doc2);
+
         TimeSpan time = new TimeSpan(8.00, 20.60);
         TimeSpan time1 = new TimeSpan(9.00, 11.00);
         TimeSpan time2 = new TimeSpan(11.00, 13.00);
         TimeSpan time3 = new TimeSpan(15.00, 19.00);
+
         doc1.addShift(0, time, 0);
         doc2.addShift(0, time, 0);
 

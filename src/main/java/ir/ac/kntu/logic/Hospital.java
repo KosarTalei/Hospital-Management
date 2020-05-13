@@ -1,10 +1,8 @@
 package ir.ac.kntu.logic;
 
-import ir.ac.kntu.Patient;
-import ir.ac.kntu.Person;
+import ir.ac.kntu.*;
 import ir.ac.kntu.menu.Admin;
-import ir.ac.kntu.menu.Security;
-import ir.ac.kntu.menu.User;
+import ir.ac.kntu.menu.SecurityUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +11,17 @@ import java.util.Objects;
 public class Hospital {
 
     private Admin currentAdmin;
-    private Security currentSecurity;
+    private SecurityUser currentSecurityUser;
     private Patient currentPatient;
 
     private List<Admin> admins;
     private List<Security> securities;
+    private List<SecurityUser> securitiesUser;
     private List<Patient> patients;
-    private List<Person> persons;
+    private List<Person> persons;///
+    private ArrayList<Nurse> nurses;
+    private ArrayList<Doctor> doctors;
+    private ArrayList<Facilities> facilities;
 
     public enum Option {
         LOGIN_ADMIN, LOGIN_SECURITY,LOGIN_PATIENT,
@@ -38,6 +40,9 @@ public class Hospital {
         securities = new ArrayList<Security>();
         patients = new ArrayList<Patient>();
         persons = new ArrayList<Person>();
+        doctors = new ArrayList<Doctor>();
+        nurses = new ArrayList<Nurse>();
+        facilities = new ArrayList<Facilities>();
     }
 
     public void setCurrentAdmin(Admin currentAdmin) {
@@ -56,12 +61,12 @@ public class Hospital {
         return currentPatient;
     }
 
-    public void setCurrentSecurity(Security currentSecurity) {
-        this.currentSecurity = currentSecurity;
+    public void setCurrentSecurityUser(SecurityUser currentSecurityUser) {
+        this.currentSecurityUser = currentSecurityUser;
     }
 
-    public Security getCurrentSecurity() {
-        return currentSecurity;
+    public SecurityUser getCurrentSecurityUser() {
+        return currentSecurityUser;
     }
 
     public List<Admin> getAdmins() {
@@ -78,6 +83,22 @@ public class Hospital {
 
     public List<Person> getPersons() {
         return persons;
+    }
+
+    public ArrayList<Nurse> getNurses() {
+        return nurses;
+    }
+
+    public ArrayList<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public ArrayList<Facilities> getFacilities() {
+        return facilities;
+    }
+
+    public List<SecurityUser> getSecuritiesUser() {
+        return securitiesUser;
     }
 
     public boolean equals(Object obj) {

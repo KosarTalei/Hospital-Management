@@ -11,14 +11,14 @@ public class SecurityMenu {
         return instance;
     }
 
-    public Security.Option getOption() {
-        Security.Option[] options = Security.Option.values();
+    public SecurityUser.Option getOption() {
+        SecurityUser.Option[] options = SecurityUser.Option.values();
         int userInput = ScannerWrapper.getInstance().nextInt();
         userInput--;
         if (userInput >= 0 && userInput < options.length) {
             return options[userInput];
         }
-        return Security.Option.UNDEFINED;
+        return SecurityUser.Option.UNDEFINED;
     }
 
     public void printTheMenu(){

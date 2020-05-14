@@ -65,6 +65,10 @@ public class Hospital {
         this.currentSecurityUser = currentSecurityUser;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public SecurityUser getCurrentSecurityUser() {
         return currentSecurityUser;
     }

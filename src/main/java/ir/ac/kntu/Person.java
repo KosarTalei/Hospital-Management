@@ -33,12 +33,20 @@ public abstract class Person {
         return lastName;
     }
 
-    abstract public boolean addPerson(Person person);
-    abstract public Person getPerson(String personId);
-
     public String getId() {
         return id;
     }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    abstract public boolean addPerson(Person person);
+    abstract public Person getPerson(String personId);
 
     public boolean equals(Object obj) {
         if (this == obj){
@@ -84,5 +92,13 @@ public abstract class Person {
         result = prime * result
                 + ((id == null) ? 0 : id.hashCode());
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Person: " +
+                ", id='" + id + '\''+
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'';
     }
 }

@@ -5,8 +5,7 @@ import ir.ac.kntu.logic.Hospital;
 
 public class Admin {
     public enum Option{
-        SIGN_ADMIN,SIGN_SECURITY,SIGN_PATIENT,PATIENT_MENU,DOCTOR_MENU,NURSE_MENU,
-        DEPARTMENT_MENU,ROOM_MENU,SHIFT_MENU,EXIT, UNDEFINED
+        SIGN_ADMIN,SIGN_SECURITY,SIGN_PATIENT,PATIENT_MENU,DOCTOR_MENU,NURSE_MENU,EXIT, UNDEFINED
     }
 
     private Hospital hospital;

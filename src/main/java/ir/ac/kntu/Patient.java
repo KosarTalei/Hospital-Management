@@ -3,8 +3,6 @@ package ir.ac.kntu;
 import ir.ac.kntu.department.Department;
 import ir.ac.kntu.department.Room;
 import ir.ac.kntu.logic.Hospital;
-import ir.ac.kntu.menu.Admin;
-import ir.ac.kntu.menu.AdminMenu;
 import ir.ac.kntu.menu.PatientMenu;
 import ir.ac.kntu.menu.User;
 
@@ -31,7 +29,6 @@ public class Patient extends Person {
     private int age;
     private String gender;
     private Doctor doctor;
-    private String id;
     private String nationalNum;
     private String insurance;
 
@@ -42,6 +39,10 @@ public class Patient extends Person {
     public Patient(String id, String firstName, String lastName) {
 
         super(id, firstName, lastName, "patient");
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
     }
 
     public void setAge(int age) {
@@ -78,11 +79,6 @@ public class Patient extends Person {
 
     public void setNationalNum(String nationalNum) {
         this.nationalNum = nationalNum;
-    }
-
-    @Override
-    public String getId() {
-        return id;
     }
 
     public String getNationalNum() {
@@ -131,39 +127,69 @@ public class Patient extends Person {
         return null;
     }
 
-    /*public void updatePatientDetails(Patient patient) {
+    public void changeOption(Hospital hospital) {
+        PatientMenu.getInstance().printChangeMenu();
+        Patient.ChangeOption option = PatientMenu.getInstance().getChangeOption();
+        while (option != Patient.ChangeOption.EXIT) {
+            hospital = updatePatientDetails(option, hospital);
+            PatientMenu.getInstance().printChangeMenu();
+            option = PatientMenu.getInstance().getChangeOption();
+        }
+    }
 
-        switch(ch) {
-            case 1:
-                prompt="Enter new patient's firstName:";
-                String firstName = getInput(prompt);
+    public Hospital updatePatientDetails(Patient.ChangeOption option, Hospital hospital) {
+        String prompt = "Enter patient id:";
+        String id = ScannerWrapper.getInstance().getInput(prompt);
+        Patient patient = new Patient();
+        patient.setHospital(hospital);
+        patient = (Patient)patient.getPerson(id);
+        switch (option) {
+            case FIRST_NAME:case LAST_NAME:
+                prompt = "Enter new patient's firstName:";
+                String firstName = ScannerWrapper.getInstance().getInput(prompt);
                 patient.setFirstName(firstName);
-                prompt="Enter new patient's lastName:";
-                String lastName = getInput(prompt);
+                prompt = "Enter new patient's lastName:";
+                String lastName = ScannerWrapper.getInstance().getInput(prompt);
                 patient.setLastName(lastName);
                 System.out.println("Patient updated !");
                 break;
-            case 2:
-                prompt="Enter new patient insurance:";
-                String insurance = getInput(prompt);
+            case INSURANCE:
+                prompt = "Enter new patient insurance:";
+                String insurance = ScannerWrapper.getInstance().getInput(prompt);
                 patient.setInsurance(insurance);
                 System.out.println("Patient updated !");
                 break;
-            case 3:
-                prompt="Enter new Patient age:";
-                int age = Integer.parseInt(getInput(prompt));
+            case AGE:
+                prompt = "Enter new Patient age:";
+                int age = Integer.parseInt(ScannerWrapper.getInstance().getInput(prompt));
                 patient.setAge(age);
                 System.out.println("Patient updated !");
                 break;
-            case 4:
-                prompt="Enter new Patient illness:";
-                Disease disease = Disease.valueOf(getInput(prompt));
+            case ILLNESS:
+                prompt = "Enter new Patient illness:";
+                Disease disease = Disease.valueOf(ScannerWrapper.getInstance().getInput(prompt));
                 patient.setDisease(disease);
                 System.out.println("Patient updated !");
                 break;
             default:
                 System.out.println("Invalid choice.");
                 break;
+        }
+        return hospital;
+    }
 
-        }*/
+    @Override
+    public String toString() {
+        return  super.toString()+
+                "hospital=" + hospital.getName() +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
+                ", nationalNum='" + nationalNum + '\'' +
+                ", insurance='" + insurance + '\'' +
+                ", joinDate=" + joinDate +
+                ", disease=" + disease +
+                ", department=" + department +
+                ", room=" + room +
+                ", doctor=" + doctor ;
+    }
 }

@@ -8,6 +8,11 @@ import ir.ac.kntu.shift.TimeSpan;
 import java.util.ArrayList;
 
 public class Nurse extends Person implements ShiftManagement{
+
+    public enum Option{
+        ADD,SEE,DELETE,SHIFTS,ADD_SHIFT,REMOVE_SHIFT,EXIT,UNDEFINED
+    }
+
     private Hospital hospital;
     private Schedule shiftsTaken;
     private Schedule availability;
@@ -16,7 +21,10 @@ public class Nurse extends Person implements ShiftManagement{
     private ArrayList<Patient> doctorPatientList;
     private ArrayList<Object> scheduleHolder = new ArrayList<Object>(2);
 
-    Nurse(String id, String firstName, String lastName, int maxHrs, int minHrs) {
+    public Nurse(){
+
+    }
+    public Nurse(String id, String firstName, String lastName, int maxHrs, int minHrs) {
 
         super(id, firstName, lastName, "nurse");
         this.maxHrs = maxHrs;

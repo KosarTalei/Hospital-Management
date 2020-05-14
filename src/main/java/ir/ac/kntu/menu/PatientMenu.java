@@ -34,7 +34,6 @@ public class PatientMenu {
         System.out.println("***********************************");
         System.out.print("\r\nPlease select your choice: ");
     }
-
     public Patient.ChangeOption getChangeOption() {
         Patient.ChangeOption[] options = Patient.ChangeOption.values();
         int userInput = ScannerWrapper.getInstance().nextInt();

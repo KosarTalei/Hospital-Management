@@ -10,6 +10,11 @@ public class Booking {
     private Date checkInDateTime;
     private Date checkOutDateTime;
 
+    public Booking(Patient patient){
+        this.customer = patient;
+        setCheckOutDateTime(patient);
+        setCheckInDateTime(patient);
+    }
     public Patient getCustomer() {
         return customer;
     }

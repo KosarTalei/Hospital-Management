@@ -3,6 +3,7 @@ package ir.ac.kntu.department;
 import ir.ac.kntu.Date;
 import ir.ac.kntu.Patient;
 import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.logic.Hospital;
 
 import java.util.ArrayList;
 
@@ -54,7 +55,7 @@ public class Payment {
         return orderTotal;
     }
 
-    public double pay(Patient patient) {
+    public double pay(Patient patient, Hospital hospital) {
         Room room= patient.getRoom();
         int bedNum = room.getBedsNum();
 
@@ -66,7 +67,7 @@ public class Payment {
         Insurance insurance = Insurance.valueOf(booking.getCustomer().getInsurance());
         this.totalBill = insurance.sale(sum);
 
-        //patient.remove(patient);
+        hospital.getPatients().remove(patient);
         room.getOccupants().remove(patient);
 
         return totalBill;

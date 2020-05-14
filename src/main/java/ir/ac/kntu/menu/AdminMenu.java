@@ -31,10 +31,7 @@ public class AdminMenu {
         System.out.println("4-Patient Menu");
         System.out.println("5-Doctor Menu");
         System.out.println("6-Nurse Menu");
-        System.out.println("7-Department Menu");
-        System.out.println("8-Room Menu");
-        System.out.println("9-Shift Menu");
-        System.out.println("10-Exit.");
+        System.out.println("7-Exit.");
         System.out.println("***********************************");
         System.out.print("\r\nPlease select your choice: ");
     }

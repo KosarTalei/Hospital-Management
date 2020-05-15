@@ -1,27 +1,27 @@
 package ir.ac.kntu;
 
 import ir.ac.kntu.logic.Hospital;
-import ir.ac.kntu.menu.PatientMenu;
 import ir.ac.kntu.shift.TimeSpan;
 
 import java.util.ArrayList;
 
-public class PersonMng {
+public class PersonnelMng {
 
     private Hospital hospital;
 
-    public PersonMng(){
+    public PersonnelMng(){
     }
     public void setHospital(Hospital hospital) {
         this.hospital = hospital;
     }
-    public void createPerson(){
-        makePerson();
-        /*try {
-            makePerson();
+
+    public Person createPerson(){
+        try {
+            return makePerson();
         }catch(Exception e){
             System.out.println("Person wasn't properly entered.");
-        }*/
+        }
+        return null;
     }
 
     public Person makePerson(){
@@ -78,6 +78,7 @@ public class PersonMng {
         prompt = "What is the nurse's Max Hrs?";
         int mx = Integer.parseInt(ScannerWrapper.getInstance().getInput(prompt));
         Nurse nurse = new Nurse(id,firstName,lastName,mx,mn);
+        nurse.setHospital(hospital);
         nurse.addPerson(nurse);
         return nurse;
     }
@@ -88,6 +89,7 @@ public class PersonMng {
         prompt = "What is the doctor's Max Hrs?";
         int mx = Integer.parseInt(ScannerWrapper.getInstance().getInput(prompt));
         Doctor doctor = new Doctor(id,firstName,lastName,mx,mn);
+        doctor.setHospital(hospital);
         doctor.addPerson(doctor);//add shift?
         return doctor;
     }
@@ -97,32 +99,6 @@ public class PersonMng {
         patient.setHospital(hospital);
         patient.addPerson(patient);
         return patient;
-    }
-
-
-    private void changeOption(Hospital hospital) {
-        PatientMenu.getInstance().printChangeMenu();
-        Patient.ChangeOption option= PatientMenu.getInstance().getChangeOption();
-        while (option != Patient.ChangeOption.EXIT) {
-            hospital = handleChangeOption(option,hospital);
-            PatientMenu.getInstance().printChangeMenu();
-            option = PatientMenu.getInstance().getChangeOption();
-        }
-    }
-
-    public Hospital handleChangeOption(Patient.ChangeOption option, Hospital hospital) {
-        String prompt = "Enter person position:";
-        String position = ScannerWrapper.getInstance().getInput(prompt);
-        prompt ="Enter person ID you want to update:";
-        String idNum = ScannerWrapper.getInstance().getInput(prompt);
-
-        if ("patient".equals(position)) {
-            Patient patient = new Patient();
-            patient = (Patient) patient.getPerson(idNum);
-            patient.changeOption(hospital);
-        }
-        System.out.println("Wrong position!");
-        return hospital;
     }
 
     public void printDoctors() {

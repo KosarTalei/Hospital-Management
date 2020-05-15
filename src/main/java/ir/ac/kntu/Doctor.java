@@ -13,21 +13,32 @@ public class Doctor extends Person implements ShiftManagement {
     public enum Option{
         ADD,SEE,DELETE,SHIFTS,ADD_SHIFT,REMOVE_SHIFT,EXIT,UNDEFINED
     }
+
     private Hospital hospital;
+
     private Schedule shiftsTaken;
     private Schedule availability;
     private int maxHrs;
     private int minHrs;
+
     private ArrayList<Patient> doctorPatientList;
+
     private ArrayList<Object> scheduleHolder = new ArrayList<Object>(2);
 
     public Doctor(){
 
     }
 
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
+    }
+
     public Doctor(String id, String firstName, String lastName, int maxHrs, int minHrs) {
 
         super(id, firstName, lastName, "doctor");
+
+        doctorPatientList = new ArrayList<>();
+
         this.maxHrs = maxHrs;
         this.minHrs = minHrs;
 
@@ -119,8 +130,13 @@ public class Doctor extends Person implements ShiftManagement {
             }
         }
     }
-    public void addPatientsToDoctor(Patient patient) {
-        this.doctorPatientList.add(patient);
+    /*public void addPatientsToDoctor(Patient patient) {
+        System.out.println("::"+doctorPatientList);
+        doctorPatientList.add(patient);
+    }*/
+
+    public ArrayList<Patient> getDoctorPatientList() {
+        return doctorPatientList;
     }
 
     @Override

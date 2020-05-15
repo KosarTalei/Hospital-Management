@@ -20,13 +20,13 @@ public class Item {
         }
     }
 
-    private int itemId;
+    private String itemId;
     private String itemName;
     private double price;
     private boolean isHealthy;
     private Date checkUp;
 
-    public Item(int itemId,String itemName){
+    public Item(String itemId,String itemName){
         this.itemId = itemId;
         this.itemName = itemName;
     }
@@ -36,9 +36,11 @@ public class Item {
         this.price = item.payment(pay);
         return pay;
     }
-    public int getItemId() {
+
+    public String getItemId() {
         return itemId;
     }
+
     public String getItemName() {
         return itemName;
     }

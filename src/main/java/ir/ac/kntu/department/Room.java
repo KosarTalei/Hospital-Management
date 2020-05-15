@@ -8,22 +8,30 @@ import java.util.Objects;
 public class Room{
 
     private Department department;
-    private boolean available;
     private int bedsNum;
     private String roomNum;
     private ArrayList<Patient> occupants;
 
+    private ArrayList<Item> items;
     private boolean hasTV;
     private boolean hasRefrigerator;
     private boolean hasAirConditioner;
-    private RoomFare roomClass;
+    private String roomClass;
 
     public Room(String roomNum,int bedsNum,Department department) {
         this.department = department;
         this.roomNum = roomNum;
         this.bedsNum = bedsNum;
-        setAvailable(false);
         occupants = new ArrayList<Patient>();
+        items = new ArrayList<Item>();
+    }
+
+    public void setItems(Item item) {
+        items.add(item);
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
     }
 
     public void setHasAirConditioner(boolean hasAirConditioner) {
@@ -38,7 +46,11 @@ public class Room{
         this.hasTV = hasTV;
     }
 
-    public RoomFare getRoomClass() {
+    public void setRoomClass(String roomClass) {
+        this.roomClass = roomClass;
+    }
+
+    public String getRoomClass() {
         return roomClass;
     }
 
@@ -52,10 +64,6 @@ public class Room{
 
     public int getBedsNum() {
         return bedsNum;
-    }
-
-    public void setOccupants(ArrayList<Patient> occupants) {
-        this.occupants = occupants;
     }
 
     public boolean addOccupant(Patient patient) {
@@ -75,10 +83,6 @@ public class Room{
         return null;
     }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -88,21 +92,24 @@ public class Room{
             return false;
         }
         Room room = (Room) o;
-        return available == room.available &&
-                Objects.equals(roomNum, room.roomNum);
+        return Objects.equals(roomNum, room.roomNum);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(available, roomNum);
+        return Objects.hash(roomNum);
     }
 
+    @Override
     public String toString() {
         return "Room{" +
-                "available=" + available +
-                ", occupants=" + occupants +
+                "department=" + department.getName() +
                 ", bedsNum=" + bedsNum +
-                ", roomNum=" + roomNum +
+                ", roomNum='" + roomNum + '\'' +
+                ", hasTV=" + hasTV +
+                ", hasRefrigerator=" + hasRefrigerator +
+                ", hasAirConditioner=" + hasAirConditioner +
+                ", roomClass='" + roomClass + '\'' +
                 '}';
     }
 }

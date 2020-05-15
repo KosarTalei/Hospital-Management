@@ -10,6 +10,7 @@ public class Emergency extends Department {
     public Emergency() {
         super("Emergency");
     }
+
     @Override
     boolean addPerson(Person person) {
         if (!getPersons().contains(person)) {

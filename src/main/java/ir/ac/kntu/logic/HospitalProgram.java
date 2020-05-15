@@ -208,11 +208,11 @@ public class HospitalProgram {
         }
     }
     public static Hospital handleNurseOption(Doctor.Option option,Hospital hospital) {
-        PersonMng personMng = new PersonMng();
-        personMng.setHospital(hospital);
+        PersonnelMng personnelMng = new PersonnelMng();
+        personnelMng.setHospital(hospital);
         switch (option){
             case ADD:
-                personMng.createPerson();
+                personnelMng.createPerson();
                 break;
             case SEE:
                 Nurse nurse = getNurse();
@@ -227,12 +227,12 @@ public class HospitalProgram {
                 nurse2.printSchedule();
                 break;
             case ADD_SHIFT:
-                personMng.printNurses();
-                personMng.input("nurse");
+                personnelMng.printNurses();
+                personnelMng.input("nurse");
                 break;
             case REMOVE_SHIFT:
-                personMng.printNurses();
-                personMng.removeFromNurseSchedule();
+                personnelMng.printNurses();
+                personnelMng.removeFromNurseSchedule();
                 break;
             default:
                 System.out.println("Invalid choice!");
@@ -257,11 +257,11 @@ public class HospitalProgram {
         }
     }
     public static Hospital handleDoctorOption(Doctor.Option option,Hospital hospital) {
-        PersonMng personMng = new PersonMng();
-        personMng.setHospital(hospital);
+        PersonnelMng personnelMng = new PersonnelMng();
+        personnelMng.setHospital(hospital);
         switch (option){
             case ADD:
-                personMng.createPerson();
+                personnelMng.createPerson();
                 break;
             case SEE:
                 Doctor doctor = getDoctor();
@@ -276,12 +276,12 @@ public class HospitalProgram {
                 doctor2.printSchedule();
                 break;
             case ADD_SHIFT:
-                personMng.printDoctors();
-                personMng.input("doctor");
+                personnelMng.printDoctors();
+                personnelMng.input("doctor");
                 break;
             case REMOVE_SHIFT:
-                personMng.printDoctors();
-                personMng.removeFromDocSchedule();
+                personnelMng.printDoctors();
+                personnelMng.removeFromDocSchedule();
                 break;
             default:
                 System.out.println("Invalid choice!");
@@ -308,19 +308,28 @@ public class HospitalProgram {
         }
     }
     public static Hospital handlePatientOption(Patient.Option option,Hospital hospital) {
+        PatientMng patientMng = new PatientMng();
+        patientMng.setHospital(hospital);
         switch (option){
             case NEW:
-                PersonMng personMng = new PersonMng();
-                personMng.setHospital(hospital);
-                personMng.createPerson();
+                PersonnelMng personnelMng = new PersonnelMng();
+                personnelMng.setHospital(hospital);
+                personnelMng.createPerson();
                 break;
             case SEE:
                 Patient patient = getPatient(hospital);
-                System.out.println(patient);
+                if (patient != null) {
+                    System.out.println(patient.toString());
+                }else {
+                    System.out.println("This patient dont exist!");
+                }
+                break;
+            case HOSPITALISATION:
+                Patient patient1 = getPatient(hospital);
+                patientMng.hospitalisation(patient1);
                 break;
             case CHANG:
-                Patient patient1 = new Patient();
-                patient1.changeOption(hospital);
+                patientMng.changeOption(hospital);
                 break;
             case INVOICE:
                 Patient patient2 = getPatient(hospital);

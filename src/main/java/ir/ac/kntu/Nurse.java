@@ -18,7 +18,7 @@ public class Nurse extends Person implements ShiftManagement{
     private Schedule availability;
     private int maxHrs;
     private int minHrs;
-    private ArrayList<Patient> doctorPatientList;
+    private ArrayList<Patient> nursePatientList;
     private ArrayList<Object> scheduleHolder = new ArrayList<Object>(2);
 
     public Nurse(){
@@ -27,6 +27,9 @@ public class Nurse extends Person implements ShiftManagement{
     public Nurse(String id, String firstName, String lastName, int maxHrs, int minHrs) {
 
         super(id, firstName, lastName, "nurse");
+
+        nursePatientList = new ArrayList<>();
+
         this.maxHrs = maxHrs;
         this.minHrs = minHrs;
 
@@ -35,6 +38,10 @@ public class Nurse extends Person implements ShiftManagement{
 
         scheduleHolder.add(availability);
         scheduleHolder.add(shiftsTaken);
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
     }
 
     @Override
@@ -116,7 +123,8 @@ public class Nurse extends Person implements ShiftManagement{
             }
         }
     }
-    public void addPatientsToDoctor(Patient patient) {
-        this.doctorPatientList.add(patient);
+
+    public ArrayList<Patient> getNursePatientList() {
+        return nursePatientList;
     }
 }

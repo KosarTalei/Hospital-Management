@@ -28,7 +28,6 @@ public class Payment {
     }
 
     private Booking booking;
-    private ArrayList<ExtraOrders> orders;
     private double perBed;
     private double dailyBill;
 
@@ -47,10 +46,10 @@ public class Payment {
         return Date.findDays(booking.getCheckInDateTime(),booking.getCheckOutDateTime());
     }
 
-    public double calculateTotalBill(double moneyPerBed) {
+    public double calculateTotalBill(double moneyPerBed,Patient patient) {
         double orderTotal = 0;
-        for(ExtraOrders order: orders) {
-            orderTotal += order.getItem().getPrice(moneyPerBed);
+        for(Item item : patient.getRoom().getItems()) {
+            orderTotal += item.getPrice(moneyPerBed);
         }
         return orderTotal;
     }
@@ -60,7 +59,7 @@ public class Payment {
         int bedNum = room.getBedsNum();
 
         double moneyPerBed = perBed - ((perBed * bedNum * 10) / 100);
-        this.dailyBill = calculateTotalBill(moneyPerBed) + moneyPerBed;
+        this.dailyBill = calculateTotalBill(moneyPerBed,patient) + moneyPerBed;
         int days = getDaysStayed();
         double sum = dailyBill * days;
 

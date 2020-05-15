@@ -1,9 +1,7 @@
 package ir.ac.kntu;
 
-import ir.ac.kntu.department.Department;
-import ir.ac.kntu.department.Room;
+import ir.ac.kntu.department.*;
 import ir.ac.kntu.logic.Hospital;
-import ir.ac.kntu.menu.PatientMenu;
 import ir.ac.kntu.menu.User;
 
 enum Disease{
@@ -12,7 +10,7 @@ enum Disease{
 public class Patient extends Person {
 
     public enum Option {
-        NEW, SEE, CHANG, INVOICE, EXIT, UNDEFINED
+        NEW,HOSPITALISATION, SEE, CHANG, INVOICE, EXIT, UNDEFINED
     }
 
     public enum ChangeOption {
@@ -29,6 +27,7 @@ public class Patient extends Person {
     private int age;
     private String gender;
     private Doctor doctor;
+    private Nurse nurse;
     private String nationalNum;
     private String insurance;
 
@@ -73,6 +72,14 @@ public class Patient extends Person {
         return doctor;
     }
 
+    public Nurse getNurse() {
+        return nurse;
+    }
+
+    public void setNurse(Nurse nurse) {
+        this.nurse = nurse;
+    }
+
     public void setInsurance(String insurance) {
         this.insurance = insurance;
     }
@@ -110,7 +117,6 @@ public class Patient extends Person {
         if (!hospital.getPatients().contains(person)) {
             hospital.getPatients().add((Patient) person);
             System.out.println("patient added successfully!");
-            //do else
             return true;
         }
         System.out.println("patient already exist!");
@@ -127,69 +133,17 @@ public class Patient extends Person {
         return null;
     }
 
-    public void changeOption(Hospital hospital) {
-        PatientMenu.getInstance().printChangeMenu();
-        Patient.ChangeOption option = PatientMenu.getInstance().getChangeOption();
-        while (option != Patient.ChangeOption.EXIT) {
-            hospital = updatePatientDetails(option, hospital);
-            PatientMenu.getInstance().printChangeMenu();
-            option = PatientMenu.getInstance().getChangeOption();
-        }
-    }
-
-    public Hospital updatePatientDetails(Patient.ChangeOption option, Hospital hospital) {
-        String prompt = "Enter patient id:";
-        String id = ScannerWrapper.getInstance().getInput(prompt);
-        Patient patient = new Patient();
-        patient.setHospital(hospital);
-        patient = (Patient)patient.getPerson(id);
-        switch (option) {
-            case FIRST_NAME:case LAST_NAME:
-                prompt = "Enter new patient's firstName:";
-                String firstName = ScannerWrapper.getInstance().getInput(prompt);
-                patient.setFirstName(firstName);
-                prompt = "Enter new patient's lastName:";
-                String lastName = ScannerWrapper.getInstance().getInput(prompt);
-                patient.setLastName(lastName);
-                System.out.println("Patient updated !");
-                break;
-            case INSURANCE:
-                prompt = "Enter new patient insurance:";
-                String insurance = ScannerWrapper.getInstance().getInput(prompt);
-                patient.setInsurance(insurance);
-                System.out.println("Patient updated !");
-                break;
-            case AGE:
-                prompt = "Enter new Patient age:";
-                int age = Integer.parseInt(ScannerWrapper.getInstance().getInput(prompt));
-                patient.setAge(age);
-                System.out.println("Patient updated !");
-                break;
-            case ILLNESS:
-                prompt = "Enter new Patient illness:";
-                Disease disease = Disease.valueOf(ScannerWrapper.getInstance().getInput(prompt));
-                patient.setDisease(disease);
-                System.out.println("Patient updated !");
-                break;
-            default:
-                System.out.println("Invalid choice.");
-                break;
-        }
-        return hospital;
-    }
-
     @Override
     public String toString() {
-        return  super.toString()+
-                "hospital=" + hospital.getName() +
+        return
+                super.toString() +
                 ", age=" + age +
                 ", gender='" + gender + '\'' +
                 ", nationalNum='" + nationalNum + '\'' +
                 ", insurance='" + insurance + '\'' +
-                ", joinDate=" + joinDate +
                 ", disease=" + disease +
-                ", department=" + department +
-                ", room=" + room +
-                ", doctor=" + doctor ;
+                ", department=" + department.getName() +
+                ", room=" + room.getRoomNum() +
+                ", doctor=" + doctor.getFirstName() + doctor.getLastName();
     }
 }

@@ -1,10 +1,8 @@
 package ir.ac.kntu;
 
-import java.util.ArrayList;
-
 public abstract class Person {
 
-    private PersonMng personMng;
+    private PersonnelMng personnelMng;
 
     private String firstName;
     private  String lastName;
@@ -74,13 +72,10 @@ public abstract class Person {
             return false;
 		}
         if (lastName == null) {
-            if (other.lastName != null){
-                return false;
-			}
-        } else if (!lastName.equals(other.lastName)){
-            return false;
+            return other.lastName == null;
+        } else{ 
+		    return lastName.equals(other.lastName);
 		}
-        return true;
     }
 
     public int hashCode() {

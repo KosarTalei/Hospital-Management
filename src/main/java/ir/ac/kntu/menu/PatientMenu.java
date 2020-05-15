@@ -27,10 +27,11 @@ public class PatientMenu {
         System.out.println("***********************************");
         System.out.println("Options:");
         System.out.println("1-Add new Patient");//sign
-        System.out.println("2-See patient data");
-        System.out.println("3-Change patient data");
-        System.out.println("4-Invoice patient");
-        System.out.println("5-Exit.");
+        System.out.println("2-Patient hospitalisation");
+        System.out.println("3-See patient data");
+        System.out.println("4-Change patient data");
+        System.out.println("5-Invoice patient");
+        System.out.println("6-Exit.");
         System.out.println("***********************************");
         System.out.print("\r\nPlease select your choice: ");
     }

@@ -1,6 +1,6 @@
-package ir.ac.kntu.menu;
+package ir.ac.kntu.user;
 
-import ir.ac.kntu.Patient;
+import ir.ac.kntu.person.Patient;
 import ir.ac.kntu.logic.Hospital;
 
 public class User {

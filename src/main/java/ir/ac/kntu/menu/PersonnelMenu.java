@@ -1,16 +1,15 @@
 package ir.ac.kntu.menu;
 
-import ir.ac.kntu.Doctor;
-import ir.ac.kntu.Patient;
-import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.person.Doctor;
+import ir.ac.kntu.helper.ScannerWrapper;
 
-public class DoctorMenu {
-    private static DoctorMenu instance = new DoctorMenu();
+public class PersonnelMenu {
+    private static PersonnelMenu instance = new PersonnelMenu();
 
-    private DoctorMenu() {
+    private PersonnelMenu() {
     }
 
-    public static DoctorMenu getInstance() {
+    public static PersonnelMenu getInstance() {
         return instance;
     }
 

@@ -1,12 +1,10 @@
-package ir.ac.kntu;
+package ir.ac.kntu.person;
 
 import ir.ac.kntu.department.*;
+import ir.ac.kntu.helper.Date;
 import ir.ac.kntu.logic.Hospital;
-import ir.ac.kntu.menu.User;
+import ir.ac.kntu.user.User;
 
-enum Disease{
-    Burn,Strike, Accident,Else;
-}
 public class Patient extends Person {
 
     public enum Option {
@@ -16,7 +14,9 @@ public class Patient extends Person {
     public enum ChangeOption {
         FIRST_NAME, LAST_NAME, AGE, INSURANCE, ILLNESS, EXIT, UNDEFINED
     }
-
+    public enum Disease{
+        Burn,Strike, Accident,Else;
+    }
     private User user;
     private Hospital hospital;
 
@@ -143,7 +143,7 @@ public class Patient extends Person {
                 ", insurance='" + insurance + '\'' +
                 ", disease=" + disease +
                 ", department=" + department.getName() +
-                ", room=" + room.getRoomNum() +
+                ", room=" + room +
                 ", doctor=" + doctor.getFirstName() + doctor.getLastName();
     }
 }

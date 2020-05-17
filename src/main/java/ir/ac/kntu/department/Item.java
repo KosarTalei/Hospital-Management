@@ -1,6 +1,6 @@
 package ir.ac.kntu.department;
 
-import ir.ac.kntu.Date;
+import ir.ac.kntu.helper.Date;
 
 public class Item {
 
@@ -29,12 +29,24 @@ public class Item {
     public Item(String itemId,String itemName){
         this.itemId = itemId;
         this.itemName = itemName;
+        setHealthy(true);
     }
 
     public double getPrice(double pay) {
         Items item = Item.Items.valueOf(itemName);
         this.price = item.payment(pay);
         return pay;
+    }
+
+    public void setCheckUp(Date checkUp) {
+        this.checkUp = checkUp;
+    }
+
+    public void setHealthy(boolean healthy) {
+        this.isHealthy = healthy;
+    }
+    public boolean getHealthy() {
+        return isHealthy;
     }
 
     public String getItemId() {

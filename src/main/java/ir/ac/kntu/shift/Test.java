@@ -1,12 +1,9 @@
 package ir.ac.kntu.shift;
 
-import ir.ac.kntu.Date;
-import ir.ac.kntu.Doctor;
-import ir.ac.kntu.Patient;
+import ir.ac.kntu.helper.Date;
+import ir.ac.kntu.person.Doctor;
+import ir.ac.kntu.person.Patient;
 import ir.ac.kntu.department.*;
-import ir.ac.kntu.logic.Hospital;
-import ir.ac.kntu.logic.HospitalProgram;
-import ir.ac.kntu.menu.Admin;
 
 import java.util.ArrayList;
 
@@ -29,14 +26,13 @@ public class Test {
         patient.setInsurance("TAMIN");
         patient.setRoom(room);
         patient.setDepartment(main);
-
         //Booking booking = new Booking();
         //Payment payment = new Payment(booking);
         //System.out.println(payment.pay(patient));
         //hospitalProgram.main(args);
         /*Pay pay = new Pay();
         pay.findPay(patient);*/
-        /*ArrayList<Object> doctorsList = new ArrayList<Object>();
+        ArrayList<Object> doctorsList = new ArrayList<Object>();
 
         Doctor doc1 = new Doctor("123", "Mohammad", "Rami", 30, 40);
         Doctor doc2 = new Doctor("456", "Karim", "Rami", 30, 40);
@@ -50,10 +46,10 @@ public class Test {
         TimeSpan time3 = new TimeSpan(15.00, 19.00);
 
         doc1.addShift(0, time, 0);
-        doc2.addShift(0, time, 0);
+        //doc2.addShift(0, time, 0);
         try {
             doc1.addShift(0, time, 0);
-            doc2.addShift(0, time, 0);
+            //doc2.addShift(0, time, 0);
         } catch (Exception e) {
             System.out.println("EXCEPTION1!");
         }
@@ -61,8 +57,8 @@ public class Test {
         master.add(0, time2);
         master.add(0, time3);
         master.add(0, time1);
-        master.generateSchedule(doctorsList);
+        master.generateSchedule(doctorsList,"doctor");
         doc1.printSchedule();
-        doc2.printSchedule();*/
+        doc2.printSchedule();
     }
 }

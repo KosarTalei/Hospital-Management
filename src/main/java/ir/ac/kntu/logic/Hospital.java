@@ -1,8 +1,8 @@
 package ir.ac.kntu.logic;
 
-import ir.ac.kntu.*;
-import ir.ac.kntu.menu.Admin;
-import ir.ac.kntu.menu.SecurityUser;
+import ir.ac.kntu.person.*;
+import ir.ac.kntu.user.Admin;
+import ir.ac.kntu.user.SecurityUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +15,10 @@ public class Hospital {
     private Patient currentPatient;
 
     private List<Admin> admins;
-    private List<Security> securities;
     private List<SecurityUser> securitiesUser;
     private List<Patient> patients;
     private List<Person> persons;///
+    private ArrayList<Security> securities;
     private ArrayList<Nurse> nurses;
     private ArrayList<Doctor> doctors;
     private ArrayList<Facilities> facilities;
@@ -38,6 +38,9 @@ public class Hospital {
 
         admins = new ArrayList<Admin>();
         securities = new ArrayList<Security>();
+
+        securitiesUser = new ArrayList<SecurityUser>();
+
         patients = new ArrayList<Patient>();
         persons = new ArrayList<Person>();
         doctors = new ArrayList<Doctor>();
@@ -77,7 +80,7 @@ public class Hospital {
         return admins;
     }
 
-    public List<Security> getSecurities() {
+    public ArrayList<Security> getSecurities() {
         return securities;
     }
 

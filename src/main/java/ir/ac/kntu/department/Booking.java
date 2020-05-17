@@ -1,8 +1,8 @@
 package ir.ac.kntu.department;
 
-import ir.ac.kntu.Date;
-import ir.ac.kntu.Patient;
-import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.helper.Date;
+import ir.ac.kntu.person.Patient;
+import ir.ac.kntu.helper.ScannerWrapper;
 
 public class Booking {
 

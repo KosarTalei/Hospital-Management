@@ -1,8 +1,13 @@
-package ir.ac.kntu;
+package ir.ac.kntu.manage;
 
 import ir.ac.kntu.department.*;
+import ir.ac.kntu.helper.Date;
+import ir.ac.kntu.helper.RandomHelper;
+import ir.ac.kntu.helper.ScannerWrapper;
 import ir.ac.kntu.logic.Hospital;
 import ir.ac.kntu.menu.PatientMenu;
+import ir.ac.kntu.person.Patient;
+import ir.ac.kntu.person.Patient.Disease;
 
 public class PatientMng {
 
@@ -49,63 +54,10 @@ public class PatientMng {
         Date entryDate = getDate("entry");
         patient.setJoinDate(entryDate);
 
-        asinDoctor(patient,department);
-        asinNurse(patient,department);
-
-    }
-
-    public void asinNurse(Patient patient, Department department){
-        if(department.getNurses().size() == 0){
-            System.out.println("you should define nurse first !");
-            PersonnelMng personnelMng = new PersonnelMng();
-            personnelMng.setHospital(hospital);
-            Nurse nurse = (Nurse) personnelMng.createPerson();
-            nurse.getNursePatientList().add(patient);
-            patient.setNurse(nurse);
-        }else {
-            Nurse nurse = randomNurse(department);
-            nurse.getNursePatientList().add(patient);
-            patient.setNurse(nurse);
-        }
-    }
-
-    private Nurse randomNurse(Department department){
-        int bound = department.getDoctors().size();
-        Nurse nurse = department.getNurses().get(RandomHelper.nextInt(bound));
-        if(nurse.getNursePatientList().size() < 6){
-            return nurse;
-        }
-        return randomNurse(department);
-    }
-
-    public void  asinDoctor(Patient patient, Department department){
-        if(department.getDoctors().size() == 0){
-            System.out.println("you should define doctor first !");
-            PersonnelMng personnelMng = new PersonnelMng();
-            personnelMng.setHospital(hospital);
-            Doctor doctor = (Doctor)personnelMng.createPerson();
-            doctor.getDoctorPatientList().add(patient);
-            patient.setDoctor(doctor);
-        }else {
-            Doctor doctor = randomDoctor(department);
-            doctor.getDoctorPatientList().add(patient);
-            patient.setDoctor(doctor);
-        }
-    }
-
-    private Doctor randomDoctor(Department department){
-        int bound = department.getDoctors().size();
-        Doctor doctor = department.getDoctors().get(RandomHelper.nextInt(bound));
-        if(!department.getName().equals("ICU")) {
-            if (doctor.getDoctorPatientList().size() < 6) {
-                return doctor;
-            }
-        }else {
-            if (doctor.getDoctorPatientList().size() < 3) {
-                return doctor;
-            }
-        }
-        return randomDoctor(department);
+        PersonnelMng personnelMng = new PersonnelMng();
+        personnelMng.setHospital(hospital);
+        personnelMng.asinDoctor(patient,department);
+        personnelMng.asinNurse(patient,department);
     }
 
     private void asinRoom(Patient patient, Department department) {
@@ -122,12 +74,15 @@ public class PatientMng {
         }
         room.setRoomClass("Normal");
         addRoom(patient, room);
+        department.getRooms().add(room);
+        System.out.println("#"+department.getRooms());
         randomItem(room);
     }
 
     private void addRoom(Patient patient, Room room) {
         room.addOccupant(patient);
         patient.setRoom(room);
+        System.out.println("!"+patient.getRoom().getRoomNum());
     }
 
     private boolean icuRoom(Patient patient, Department department) {
@@ -164,6 +119,7 @@ public class PatientMng {
         }
         if (RandomHelper.nextBoolean()){
             Item item = new Item("001","hasRefrigerator");
+            room.setItems(item);
             room.setHasRefrigerator(true);
         }
     }
@@ -184,7 +140,7 @@ public class PatientMng {
         return null;
     }
 
-    public static Date getDate(String dateName) {
+    public Date getDate(String dateName) {
         String prompt="Enter the " + dateName + " year: ";
         int year = Integer.parseInt(ScannerWrapper.getInstance().getInput(prompt));
         prompt="Enter the " + dateName + " month: ";

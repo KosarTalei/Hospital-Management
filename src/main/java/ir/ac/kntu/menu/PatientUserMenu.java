@@ -1,5 +1,6 @@
 package ir.ac.kntu.menu;
-import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.helper.ScannerWrapper;
+import ir.ac.kntu.user.PatientUser;
 
 public class PatientUserMenu {
     private static PatientUserMenu instance = new PatientUserMenu();

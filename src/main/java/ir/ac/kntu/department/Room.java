@@ -1,6 +1,6 @@
 package ir.ac.kntu.department;
 
-import ir.ac.kntu.Patient;
+import ir.ac.kntu.person.Patient;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -17,6 +17,10 @@ public class Room{
     private boolean hasRefrigerator;
     private boolean hasAirConditioner;
     private String roomClass;
+
+    public Room(){
+
+    }
 
     public Room(String roomNum,int bedsNum,Department department) {
         this.department = department;

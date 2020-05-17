@@ -1,6 +1,6 @@
-package ir.ac.kntu.menu;
+package ir.ac.kntu.user;
 
-import ir.ac.kntu.Patient;
+import ir.ac.kntu.person.Patient;
 import ir.ac.kntu.logic.Hospital;
 
 public class PatientUser {
@@ -13,10 +13,19 @@ public class PatientUser {
     private User user;
 
     public PatientUser(Patient patient) {
+
         this.user = new User(patient);
     }
 
-    public boolean login(String userName,String password) {
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
+    }
+
+    public boolean login(String userName, String password) {
         final boolean isAuthenticated = correctPassword(password) && correctUsername(userName);
         final boolean isAuthorized = isAllowedToDoThis();
 
@@ -29,7 +38,7 @@ public class PatientUser {
 
     public boolean correctPassword(String password) {
         for (Patient patient : hospital.getPatients()) {
-            if (user.getPassword().equals(password)) {
+            if (patient.getNationalNum().equals(password)) {
                 return true;
             }
         }
@@ -38,7 +47,7 @@ public class PatientUser {
 
     public boolean correctUsername(String userName) {
         for (Patient patient : hospital.getPatients()) {
-            if (user.getUserName().equals(userName)) {
+            if (patient.getId().equals(userName)) {
                 return true;
             }
         }

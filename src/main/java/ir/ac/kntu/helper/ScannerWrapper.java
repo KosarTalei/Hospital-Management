@@ -1,4 +1,4 @@
-package ir.ac.kntu;
+package ir.ac.kntu.helper;
 
 import java.io.BufferedReader;
 import java.io.IOException;

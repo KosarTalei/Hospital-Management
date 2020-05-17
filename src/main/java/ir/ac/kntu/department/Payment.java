@@ -1,11 +1,9 @@
 package ir.ac.kntu.department;
 
-import ir.ac.kntu.Date;
-import ir.ac.kntu.Patient;
-import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.helper.Date;
+import ir.ac.kntu.person.Patient;
+import ir.ac.kntu.helper.ScannerWrapper;
 import ir.ac.kntu.logic.Hospital;
-
-import java.util.ArrayList;
 
 public class Payment {
 
@@ -38,8 +36,8 @@ public class Payment {
         this.perBed = Integer.parseInt(ScannerWrapper.getInstance().getInput(prompt));
     }
 
-    public Payment(Booking booking) {
-        this.booking = booking;
+    public Payment(Patient patient) {
+        this.booking = new Booking(patient);
     }
 
     public int getDaysStayed() {
@@ -70,5 +68,16 @@ public class Payment {
         room.getOccupants().remove(patient);
 
         return totalBill;
+    }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "patient=" + booking.getCustomer().toString() +
+                ", Days stayed=" + getDaysStayed() +
+                ", Bill for one bed=" + perBed +
+                ", dailyBill=" + dailyBill +
+                ", totalBill=" + totalBill +
+                '}';
     }
 }

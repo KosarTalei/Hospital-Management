@@ -1,4 +1,4 @@
-package ir.ac.kntu;
+package ir.ac.kntu.person;
 
 import ir.ac.kntu.logic.Hospital;
 import ir.ac.kntu.shift.Schedule;
@@ -7,17 +7,29 @@ import ir.ac.kntu.shift.TimeSpan;
 
 import java.util.ArrayList;
 
-public class Facilities extends Person implements ShiftManagement {
-    private Hospital hospital;
+public class Nurse extends Person implements ShiftManagement{
 
+    public enum Option{
+        ADD,SEE,DELETE,SHIFTS,ADD_SHIFT,REMOVE_SHIFT,EXIT,UNDEFINED
+    }
+
+    private Hospital hospital;
     private Schedule shiftsTaken;
     private Schedule availability;
     private int maxHrs;
     private int minHrs;
+    private ArrayList<Patient> nursePatientList;
     private ArrayList<Object> scheduleHolder = new ArrayList<Object>(2);
 
-    public Facilities(String id, String firstName, String lastName,int maxHrs, int minHrs){
-        super(id, firstName, lastName, "security");
+    public Nurse(){
+
+    }
+    public Nurse(String id, String firstName, String lastName, int maxHrs, int minHrs) {
+
+        super(id, firstName, lastName, "nurse");
+
+        nursePatientList = new ArrayList<>();
+
         this.maxHrs = maxHrs;
         this.minHrs = minHrs;
 
@@ -27,10 +39,15 @@ public class Facilities extends Person implements ShiftManagement {
         scheduleHolder.add(availability);
         scheduleHolder.add(shiftsTaken);
     }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
+    }
+
     @Override
     public boolean addPerson(Person person) {
-        if (!hospital.getFacilities().contains(person)) {
-            hospital.getFacilities().add((Facilities) person);//?
+        if (!hospital.getNurses().contains(person)) {
+            hospital.getNurses().add((Nurse) person);//?
             return true;
         }
         return false;
@@ -38,16 +55,16 @@ public class Facilities extends Person implements ShiftManagement {
 
     @Override
     public Person getPerson(String personId) {
-        for (Facilities facilities : hospital.getFacilities()) {
-            if (facilities.getId().equals(personId)) {
-                return facilities;
+        for (Nurse nurse : hospital.getNurses()) {
+            if (nurse.getId().equals(personId)) {
+                return nurse;
             }
         }
         return null;
     }
     @Override
     public void addShift(int day, TimeSpan shiftTime, int scheduleNumber) {
-        Schedule temp = (Schedule) scheduleHolder.get(scheduleNumber);
+        Schedule temp = (Schedule)scheduleHolder.get(scheduleNumber);
         temp.add(day, shiftTime);
     }
     @Override
@@ -88,7 +105,7 @@ public class Facilities extends Person implements ShiftManagement {
             ArrayList<Object> tempList = getDaySchedule(i,0);
             for (Object obj : tempList) {
                 TimeSpan span = (TimeSpan) obj;
-                System.out.println("    Shift______");
+                System.out.println("    Shift"+ i +"______");
                 System.out.println("        Time In : " + span.getTimeIn());
                 System.out.println("        Time Out: " + span.getTimeOut());
             }
@@ -100,10 +117,14 @@ public class Facilities extends Person implements ShiftManagement {
             ArrayList<Object> tempList = getDaySchedule(i,1);
             for (Object obj : tempList){
                 TimeSpan span = (TimeSpan) obj;
-                System.out.println("    Shift______");
+                System.out.println("    Shift"+ i +"______");
                 System.out.println("        Time In : " + span.getTimeIn());
                 System.out.println("        Time Out: " + span.getTimeOut());
             }
         }
+    }
+
+    public ArrayList<Patient> getNursePatientList() {
+        return nursePatientList;
     }
 }

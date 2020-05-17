@@ -1,11 +1,12 @@
-package ir.ac.kntu.menu;
+package ir.ac.kntu.user;
 
-import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.helper.ScannerWrapper;
 import ir.ac.kntu.logic.Hospital;
 
 public class Admin {
     public enum Option{
-        SIGN_ADMIN,SIGN_SECURITY,SIGN_PATIENT,PATIENT_MENU,DOCTOR_MENU,NURSE_MENU,EXIT, UNDEFINED
+        SIGN_ADMIN,SIGN_SECURITY,SIGN_PATIENT,PATIENT_MENU,DOCTOR_MENU,NURSE_MENU,
+        SECURITY_MENU,FACILITY_MENU,REPORT,EXIT, UNDEFINED
     }
 
     private Hospital hospital;
@@ -32,8 +33,7 @@ public class Admin {
         prompt="Enter the password:";
         String password = ScannerWrapper.getInstance().getInput(prompt);
 
-        Admin admin = new Admin(userName,password,"admin");
-        return admin;
+        return new Admin(userName,password,"admin");
     }
 
     private void setPassword(String password) {

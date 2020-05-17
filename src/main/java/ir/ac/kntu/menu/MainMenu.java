@@ -1,6 +1,6 @@
 package ir.ac.kntu.menu;
 
-import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.helper.ScannerWrapper;
 import ir.ac.kntu.logic.HospitalProgram;
 
 public class MainMenu{

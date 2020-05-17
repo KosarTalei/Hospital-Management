@@ -1,4 +1,6 @@
-package ir.ac.kntu;
+package ir.ac.kntu.person;
+
+import ir.ac.kntu.manage.PersonnelMng;
 
 public abstract class Person {
 
@@ -73,8 +75,8 @@ public abstract class Person {
 		}
         if (lastName == null) {
             return other.lastName == null;
-        } else{ 
-		    return lastName.equals(other.lastName);
+        } else{
+			return lastName.equals(other.lastName);
 		}
     }
 
@@ -91,7 +93,7 @@ public abstract class Person {
 
     @Override
     public String toString() {
-        return "Person: " +
+        return
                 ", id='" + id + '\''+
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'';

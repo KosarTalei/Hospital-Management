@@ -1,5 +1,6 @@
 package ir.ac.kntu.menu;
-import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.helper.ScannerWrapper;
+import ir.ac.kntu.user.SecurityUser;
 
 public class SecurityMenu {
     private static SecurityMenu instance = new SecurityMenu();
@@ -21,7 +22,7 @@ public class SecurityMenu {
         return SecurityUser.Option.UNDEFINED;
     }
 
-    public void printTheMenu(){
+    public void printUserMenu(){
         System.out.println("***********************************");
         System.out.println("Menu:");
         System.out.println("1.Patient data");
@@ -33,4 +34,5 @@ public class SecurityMenu {
         System.out.println("***********************************");
         System.out.print("\r\nPlease select your choice: ");
     }
+
 }

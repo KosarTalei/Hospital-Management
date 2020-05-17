@@ -1,7 +1,5 @@
-package ir.ac.kntu;
+package ir.ac.kntu.person;
 
-import ir.ac.kntu.Patient;
-import ir.ac.kntu.Person;
 import ir.ac.kntu.logic.Hospital;
 import ir.ac.kntu.shift.Schedule;
 import ir.ac.kntu.shift.ShiftManagement;
@@ -10,6 +8,7 @@ import ir.ac.kntu.shift.TimeSpan;
 import java.util.ArrayList;
 
 public class Doctor extends Person implements ShiftManagement {
+
     public enum Option{
         ADD,SEE,DELETE,SHIFTS,ADD_SHIFT,REMOVE_SHIFT,EXIT,UNDEFINED
     }
@@ -52,7 +51,8 @@ public class Doctor extends Person implements ShiftManagement {
     @Override
     public boolean addPerson(Person person) {
         if (!hospital.getDoctors().contains(person)) {
-            hospital.getDoctors().add((Doctor) person);//?
+            ((Doctor) person).setHospital(hospital);
+            hospital.getDoctors().add((Doctor) person);
             System.out.println("doctor added successfully!");
             return true;
         }
@@ -62,6 +62,7 @@ public class Doctor extends Person implements ShiftManagement {
 
     @Override
     public Person getPerson(String personId) {
+        System.out.println(hospital);
         for (Doctor doctor : hospital.getDoctors()) {
             if (doctor.getId().equals(personId)) {
                 return doctor;
@@ -112,7 +113,7 @@ public class Doctor extends Person implements ShiftManagement {
             ArrayList<Object> tempList = getDaySchedule(i,0);
             for (Object obj : tempList) {
                 TimeSpan span = (TimeSpan) obj;
-                System.out.println("    Shift______");
+                System.out.println("    Shift"+ i +"______");
                 System.out.println("        Time In : " + span.getTimeIn());
                 System.out.println("        Time Out: " + span.getTimeOut());
             }
@@ -124,16 +125,12 @@ public class Doctor extends Person implements ShiftManagement {
             ArrayList<Object> tempList = getDaySchedule(i,1);
             for (Object obj : tempList){
                 TimeSpan span = (TimeSpan) obj;
-                System.out.println("    Shift______");
+                System.out.println("    Shift"+ i +"______");
                 System.out.println("        Time In : " + span.getTimeIn());
                 System.out.println("        Time Out: " + span.getTimeOut());
             }
         }
     }
-    /*public void addPatientsToDoctor(Patient patient) {
-        System.out.println("::"+doctorPatientList);
-        doctorPatientList.add(patient);
-    }*/
 
     public ArrayList<Patient> getDoctorPatientList() {
         return doctorPatientList;
@@ -142,13 +139,11 @@ public class Doctor extends Person implements ShiftManagement {
     @Override
     public String toString() {
         return "Doctor{" +
-                "hospital=" + hospital +
-                ", shiftsTaken=" + shiftsTaken +
-                ", availability=" + availability +
+                super.toString() +
+                "hospital=" + hospital.getName() +
                 ", maxHrs=" + maxHrs +
                 ", minHrs=" + minHrs +
                 ", doctorPatientList=" + doctorPatientList +
-                ", scheduleHolder=" + scheduleHolder +
-                "} " + super.toString();
+                "} ";
     }
 }

@@ -1,7 +1,7 @@
-package ir.ac.kntu.menu;
+package ir.ac.kntu.user;
 
-import ir.ac.kntu.ScannerWrapper;
-import ir.ac.kntu.Security;
+import ir.ac.kntu.helper.ScannerWrapper;
+import ir.ac.kntu.person.Security;
 import ir.ac.kntu.logic.Hospital;
 
 public class SecurityUser {

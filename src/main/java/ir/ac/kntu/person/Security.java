@@ -1,4 +1,4 @@
-package ir.ac.kntu;
+package ir.ac.kntu.person;
 
 import ir.ac.kntu.logic.Hospital;
 import ir.ac.kntu.shift.Schedule;
@@ -16,6 +16,9 @@ public class Security extends Person implements ShiftManagement {
     private int minHrs;
     private ArrayList<Object> scheduleHolder = new ArrayList<Object>(2);
 
+    public Security(){
+
+    }
     public Security(String id, String firstName, String lastName,int maxHrs, int minHrs){
         super(id, firstName, lastName, "security");
         this.maxHrs = maxHrs;
@@ -27,6 +30,11 @@ public class Security extends Person implements ShiftManagement {
         scheduleHolder.add(availability);
         scheduleHolder.add(shiftsTaken);
     }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
+    }
+
     @Override
     public boolean addPerson(Person person) {
         if (!hospital.getSecurities().contains(person)) {
@@ -88,7 +96,7 @@ public class Security extends Person implements ShiftManagement {
             ArrayList<Object> tempList = getDaySchedule(i,0);
             for (Object obj : tempList) {
                 TimeSpan span = (TimeSpan) obj;
-                System.out.println("    Shift______");
+                System.out.println("    Shift "+i+"______");
                 System.out.println("        Time In : " + span.getTimeIn());
                 System.out.println("        Time Out: " + span.getTimeOut());
             }
@@ -100,10 +108,19 @@ public class Security extends Person implements ShiftManagement {
             ArrayList<Object> tempList = getDaySchedule(i,1);
             for (Object obj : tempList){
                 TimeSpan span = (TimeSpan) obj;
-                System.out.println("    Shift______");
+                System.out.println("    Shift "+i+"______");
                 System.out.println("        Time In : " + span.getTimeIn());
                 System.out.println("        Time Out: " + span.getTimeOut());
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Security{" + super.toString() +
+                "shiftsTaken=" + shiftsTaken +
+                ", maxHrs=" + maxHrs +
+                ", minHrs=" + minHrs +
+                "} ";
     }
 }

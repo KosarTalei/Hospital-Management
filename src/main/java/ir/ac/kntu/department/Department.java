@@ -1,6 +1,9 @@
 package ir.ac.kntu.department;
 
-import ir.ac.kntu.*;
+import ir.ac.kntu.person.Doctor;
+import ir.ac.kntu.person.Nurse;
+import ir.ac.kntu.person.Patient;
+import ir.ac.kntu.person.Person;
 
 import java.util.ArrayList;
 

@@ -1,8 +1,7 @@
 package ir.ac.kntu.shift;
 
-import ir.ac.kntu.Doctor;
-import ir.ac.kntu.Nurse;
-import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.helper.ScannerWrapper;
+import ir.ac.kntu.person.*;
 
 import java.util.ArrayList;
 
@@ -21,7 +20,12 @@ public class MasterSchedule extends Schedule{
     public void scheduleNurse(int day, TimeSpan shiftTime, Nurse nurse) throws Exception {
         nurse.addShift(day, shiftTime, 1);
     }
-
+    public void scheduleSecurity(int day, TimeSpan shiftTime, Security security) throws Exception {
+        security.addShift(day, shiftTime, 1);
+    }
+    public void scheduleFacility(int day, TimeSpan shiftTime, Facilities facilities) throws Exception {
+        facilities.addShift(day, shiftTime, 1);
+    }
     public void print() {
         for (int i = 0; i < 7; i++) {
             System.out.println("_____________________________");
@@ -36,9 +40,8 @@ public class MasterSchedule extends Schedule{
         }
     }
 
-    public void generateSchedule(ArrayList empList) {
+    public void generateSchedule(ArrayList empList,String position) {
         emptyScheduledSlots();
-
         for (int i = 0; i < 7; i++) {
             ArrayList<Object> dayList = getDayList(i);
             boolean scheduleChanged = true;
@@ -50,25 +53,101 @@ public class MasterSchedule extends Schedule{
                         if (span.isFilled()) {
                             break;
                         }
-                        Doctor tempDoctor = (Doctor) temp;
-                        if (!tempDoctor.doesShiftExist(i, span, 0) ||
-                                tempDoctor.doesShiftExist(i, span, 1)) {
-                            continue;
-                        }
-                        try{
-                            scheduleDoctor(i, span, tempDoctor);
-                            scheduleChanged = true;
-                            span.setFilled();
-                        }catch(Exception e) {
-                            System.out.println("Schedule Error in Generator.");
-                        }
-
+                        Person tempPerson = null;
+                        tempPerson = getPerson(position, i, span, (Person) temp, tempPerson);
+                        scheduleChanged = isScheduleChanged(i, scheduleChanged, span, tempPerson,position);
                     }
                 }
             }
         }
     }
 
+    private Person getPerson(String position, int i, TimeSpan span, Person temp, Person tempPerson) {
+        switch (position) {
+            case "doctor":
+                tempPerson = getDoctor(i, span, (Doctor) temp);
+                break;
+            case "nurse":
+                tempPerson = getNurse(i, span, (Nurse) temp);
+                break;
+            case "security":
+                tempPerson = getSecurity(i, span, (Security) temp);
+                break;
+            case "facility":
+                tempPerson = getFacility(i, span, (Facilities) temp);
+                break;
+            default:
+                System.out.println("Wrong position!");
+                break;				
+        }
+        return tempPerson;
+    }
+
+    private boolean isScheduleChanged(int i, boolean scheduleChanged,
+	    TimeSpan span, Person tempPerson,String position) {
+        if (tempPerson == null){
+			return scheduleChanged;
+		}
+        try{
+            cast(i, span, tempPerson, position);
+            scheduleChanged = true;
+            span.setFilled();
+        }catch(Exception e) {
+            System.out.println("Schedule Error in Generator.");
+        }
+        return scheduleChanged;
+    }
+
+    private void cast(int i, TimeSpan span, Person tempPerson, String position) throws Exception {
+        switch (position) {
+            case "doctor":
+                scheduleDoctor(i, span, (Doctor) tempPerson);
+                break;
+            case "nurse":
+                scheduleNurse(i, span, (Nurse) tempPerson);
+                break;
+            case "security":
+                scheduleSecurity(i, span, (Security) tempPerson);
+                break;
+            case "facility":
+                scheduleFacility(i, span, (Facilities) tempPerson);
+                break;
+            default:
+                System.out.println("Wrong position!");
+                break;			
+        }
+    }
+
+    private Facilities getFacility(int i, TimeSpan span, Facilities temp) {
+        if (!temp.doesShiftExist(i, span, 0) ||
+                temp.doesShiftExist(i, span, 1)) {
+            return null;
+        }
+        return temp;
+    }
+
+    private Security getSecurity(int i, TimeSpan span, Security temp) {
+        if (!temp.doesShiftExist(i, span, 0) ||
+                temp.doesShiftExist(i, span, 1)) {
+            return null;
+        }
+        return temp;
+    }
+    private Nurse getNurse(int i, TimeSpan span, Nurse temp) {
+        if (!temp.doesShiftExist(i, span, 0) ||
+                temp.doesShiftExist(i, span, 1)) {
+            return null;
+        }
+        return temp;
+    }
+
+    private Doctor getDoctor(int i, TimeSpan span, Doctor temp) {
+        if (!temp.doesShiftExist(i, span, 0) ||
+                temp.doesShiftExist(i, span, 1)) {
+            return null;
+        }
+        return temp;
+    }
 
     private void emptyScheduledSlots() {
         for (int i = 0; i < 7; i++) {

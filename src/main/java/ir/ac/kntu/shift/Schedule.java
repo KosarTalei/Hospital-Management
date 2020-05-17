@@ -16,9 +16,6 @@ public class Schedule {
         ArrayList<Object> tempList = getDayList(day);
         if (!shiftExists(shiftTime, tempList)) {
             tempList.add(shiftTime);
-            for (Object span : tempList) {
-                TimeSpan temp = (TimeSpan)span;
-            }
         } else {
             System.out.println("Shift exists");
         }
@@ -51,7 +48,7 @@ public class Schedule {
 
     private boolean shiftExists(TimeSpan shiftTime, ArrayList<Object> dayList) {
         if (dayList.isEmpty()) {
-            System.out.println("Daylist is empty");
+            System.out.println("Day list is empty");
             return false;
         }
         for (Object span : dayList) {

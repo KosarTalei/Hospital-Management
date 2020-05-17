@@ -1,9 +1,9 @@
 package ir.ac.kntu.department;
 
-import ir.ac.kntu.Doctor;
-import ir.ac.kntu.Nurse;
-import ir.ac.kntu.Patient;
-import ir.ac.kntu.Person;
+import ir.ac.kntu.person.Doctor;
+import ir.ac.kntu.person.Nurse;
+import ir.ac.kntu.person.Patient;
+import ir.ac.kntu.person.Person;
 
 public class Burn extends Department {
 

@@ -8,6 +8,7 @@ import ir.ac.kntu.shift.TimeSpan;
 import java.util.ArrayList;
 
 public class Security extends Person implements ShiftManagement {
+
     private Hospital hospital;
 
     private Schedule shiftsTaken;
@@ -38,9 +39,11 @@ public class Security extends Person implements ShiftManagement {
     @Override
     public boolean addPerson(Person person) {
         if (!hospital.getSecurities().contains(person)) {
-            hospital.getSecurities().add((Security) person);//?
+            hospital.getSecurities().add((Security) person);
+            System.out.println("security added successfully!");
             return true;
         }
+        System.out.println("security already exist!");
         return false;
     }
 

@@ -1,6 +1,7 @@
 package ir.ac.kntu.logic;
 
 import ir.ac.kntu.department.*;
+import ir.ac.kntu.helper.ScannerWrapper;
 import ir.ac.kntu.person.*;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.SecurityUser;
@@ -16,21 +17,15 @@ public class Hospital {
     private Department burn;
     private Department emergency;
 
-
-
-
     private Admin currentAdmin;
     private SecurityUser currentSecurityUser;
     private Patient currentPatient;
 
     private List<Admin> admins;
     private List<SecurityUser> securitiesUser;
-    private List<Patient> patients;
-    private List<Person> persons;
-    private ArrayList<Security> securities;
-    private ArrayList<Nurse> nurses;
-    private ArrayList<Doctor> doctors;
+    //private List<Person> persons;
     private ArrayList<Facilities> facilities;
+    private ArrayList<Security> securities;
 
     public enum Option {
         LOGIN_ADMIN, LOGIN_SECURITY,LOGIN_PATIENT,
@@ -47,14 +42,9 @@ public class Hospital {
 
         admins = new ArrayList<Admin>();
         securities = new ArrayList<Security>();
-
-        securitiesUser = new ArrayList<SecurityUser>();
-
-        patients = new ArrayList<Patient>();
-        persons = new ArrayList<Person>();
-        doctors = new ArrayList<Doctor>();
-        nurses = new ArrayList<Nurse>();
         facilities = new ArrayList<Facilities>();
+        securitiesUser = new ArrayList<SecurityUser>();
+        //persons = new ArrayList<Person>();
         newDepartment();
     }
 
@@ -117,22 +107,6 @@ public class Hospital {
         return securities;
     }
 
-    public List<Patient> getPatients() {
-        return patients;
-    }
-
-    public List<Person> getPersons() {
-        return persons;
-    }
-
-    public ArrayList<Nurse> getNurses() {
-        return nurses;
-    }
-
-    public ArrayList<Doctor> getDoctors() {
-        return doctors;
-    }
-
     public ArrayList<Facilities> getFacilities() {
         return facilities;
     }
@@ -141,8 +115,9 @@ public class Hospital {
         return securitiesUser;
     }
 
-    public Department getDepartment(String dp, Hospital hospital){
-        switch (dp) {
+    public Department getDepartment(Hospital hospital){
+        String dpName = ScannerWrapper.getInstance().getInput("Enter department:");
+        switch (dpName) {
             case "EMG":
                 return hospital.getEmergency();
             case "Burn":

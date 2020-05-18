@@ -17,6 +17,7 @@ public class Room{
     private boolean refrigerator;
     private boolean airConditioner;
     private String roomClass;
+    private boolean available;
 
     public Room(){
 
@@ -28,6 +29,11 @@ public class Room{
         this.bedsNum = bedsNum;
         occupants = new ArrayList<Patient>();
         items = new ArrayList<Item>();
+        setAvailable(true);
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     public void setItems(Item item) {

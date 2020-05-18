@@ -1,7 +1,10 @@
 package ir.ac.kntu.person;
 
+import ir.ac.kntu.department.Item;
 import ir.ac.kntu.department.Room;
+import ir.ac.kntu.helper.Date;
 import ir.ac.kntu.logic.Hospital;
+import ir.ac.kntu.manage.PatientMng;
 import ir.ac.kntu.shift.Schedule;
 import ir.ac.kntu.shift.ShiftManagement;
 import ir.ac.kntu.shift.TimeSpan;
@@ -143,6 +146,34 @@ public class Facilities extends Person implements ShiftManagement {
 
     public Schedule getShiftsTaken() {
         return shiftsTaken;
+    }
+
+    public void checkFacility(Facilities facility){
+        Room room = facility.getRoom();
+        for(Item item : room.getItems()){
+            if(!item.getHealthy()){
+                item.setHealthy(true);
+                facility.setCheck(true);
+                PatientMng patientMng = new PatientMng();
+                Date date = patientMng.getDate("check up");
+                item.setCheckUp(date);
+                System.out.println("facility"+facility+" checked "+item.getItemName()+" of this room");
+            }
+        }
+    }
+
+    public boolean sayFacility(Facilities facility,TimeSpan time,Room room,int day) {
+        ArrayList<Object> list = facility.getDaySchedule(day, 1);
+        for (Object obj : list) {
+            TimeSpan tSpan = (TimeSpan) obj;
+            if( tSpan.getTimeIn() <= time.getTimeIn() && time.getTimeIn()<= time.getTimeOut() ){
+                facility.setCheck(false);
+                facility.setRoom(room);
+                System.out.println("Facility "+facility+" was selected");
+                return true;
+            }
+        }
+        return false;
     }
 
     public void printFacility() {

@@ -4,8 +4,6 @@ import ir.ac.kntu.manage.PersonnelMng;
 
 public abstract class Person {
 
-    private PersonnelMng personnelMng;
-
     private String firstName;
     private  String lastName;
     private String id;
@@ -79,7 +77,7 @@ public abstract class Person {
 			return lastName.equals(other.lastName);
 		}
     }
-
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;

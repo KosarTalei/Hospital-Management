@@ -1,6 +1,6 @@
 package ir.ac.kntu.person;
 
-import ir.ac.kntu.logic.Hospital;
+import ir.ac.kntu.department.Department;
 import ir.ac.kntu.shift.Schedule;
 import ir.ac.kntu.shift.ShiftManagement;
 import ir.ac.kntu.shift.TimeSpan;
@@ -13,7 +13,7 @@ public class Doctor extends Person implements ShiftManagement {
         ADD,SEE,DELETE,SHIFTS,ADD_SHIFT,REMOVE_SHIFT,EXIT,UNDEFINED
     }
 
-    private Hospital hospital;
+    private Department department;
 
     private Schedule shiftsTaken;
     private Schedule availability;
@@ -26,10 +26,6 @@ public class Doctor extends Person implements ShiftManagement {
 
     public Doctor(){
 
-    }
-
-    public void setHospital(Hospital hospital) {
-        this.hospital = hospital;
     }
 
     public Doctor(String id, String firstName, String lastName, int maxHrs, int minHrs) {
@@ -48,15 +44,20 @@ public class Doctor extends Person implements ShiftManagement {
         scheduleHolder.add(shiftsTaken);
     }
 
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
     public void addPatient(Patient patient) {
         if (!doctorPatientList.contains(patient)) {
-            patient.setHospital(hospital);
+            patient.setDepartment(department);
             doctorPatientList.add(patient);
             System.out.println("patient added to doctor list successfully!");
             return;
         }
         System.out.println("patient already exist!");
     }
+
     public void removeDoctor(Doctor doctor){
         for (Patient patient : doctorPatientList){
             System.out.println(patient);
@@ -64,13 +65,13 @@ public class Doctor extends Person implements ShiftManagement {
             System.out.println("doctor successfully removed!");
             System.out.println("should add to another doctor.");
         }
-        hospital.getDoctors().remove(doctor);
+        department.getDoctors().remove(doctor);
     }
     @Override
     public boolean addPerson(Person person) {
-        if (!hospital.getDoctors().contains(person)) {
-            ((Doctor) person).setHospital(hospital);
-            hospital.getDoctors().add((Doctor) person);
+        if (!department.getDoctors().contains(person)) {
+            ((Doctor) person).setDepartment(department);
+            department.getDoctors().add((Doctor) person);
             System.out.println("doctor added successfully!");
             return true;
         }
@@ -80,7 +81,7 @@ public class Doctor extends Person implements ShiftManagement {
 
     @Override
     public Person getPerson(String personId) {
-        for (Doctor doctor : hospital.getDoctors()) {
+        for (Doctor doctor : department.getDoctors()) {
             if (doctor.getId().equals(personId)) {
                 return doctor;
             }
@@ -155,7 +156,7 @@ public class Doctor extends Person implements ShiftManagement {
 
     public void printDoctors() {
         int i = 0;
-        for (Object obj : hospital.getDoctors()) {
+        for (Object obj : department.getDoctors()) {
             Doctor emp = (Doctor) obj;
             System.out.print("Doctor #" + i);
             emp.printSchedule();
@@ -174,7 +175,7 @@ public class Doctor extends Person implements ShiftManagement {
     public String toString() {
         return "Doctor{" +
                 super.toString() +
-                "hospital=" + hospital.getName() +
+                "department=" + department.getName() +
                 ", maxHrs=" + maxHrs +
                 ", minHrs=" + minHrs +
                 ", doctorPatientList=" + doctorPatientList.size() + "patients" +

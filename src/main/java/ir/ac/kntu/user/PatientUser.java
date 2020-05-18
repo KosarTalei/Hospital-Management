@@ -1,5 +1,6 @@
 package ir.ac.kntu.user;
 
+import ir.ac.kntu.department.Department;
 import ir.ac.kntu.person.Patient;
 import ir.ac.kntu.logic.Hospital;
 
@@ -9,7 +10,7 @@ public class PatientUser {
         DATA,SHIFT,INVOICE,EXIT, UNDEFINED
     }
 
-    private Hospital hospital;
+    private Department department;
     private User user;
 
     public PatientUser(Patient patient) {
@@ -21,8 +22,8 @@ public class PatientUser {
         this.user = user;
     }
 
-    public void setHospital(Hospital hospital) {
-        this.hospital = hospital;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public boolean login(String userName, String password) {
@@ -37,7 +38,7 @@ public class PatientUser {
 	}
 
     public boolean correctPassword(String password) {
-        for (Patient patient : hospital.getPatients()) {
+        for (Patient patient : department.getPatients()) {
             if (patient.getNationalNum().equals(password)) {
                 return true;
             }
@@ -46,7 +47,7 @@ public class PatientUser {
     }
 
     public boolean correctUsername(String userName) {
-        for (Patient patient : hospital.getPatients()) {
+        for (Patient patient : department.getPatients()) {
             if (patient.getId().equals(userName)) {
                 return true;
             }
@@ -55,15 +56,15 @@ public class PatientUser {
     }
 
     public boolean addUser(Patient patient) {
-        if(!hospital.getPatients().contains(patient)){
-            hospital.getPatients().add(patient);
+        if(!department.getPatients().contains(patient)){
+            department.getPatients().add(patient);
             return true;
         }
         return false;
     }
 
     public Patient getUser(String userName) {
-        for (Patient patient : hospital.getPatients()) {
+        for (Patient patient : department.getPatients()) {
             if (user.getUserName().equals(userName)) {
                 return patient;
             }

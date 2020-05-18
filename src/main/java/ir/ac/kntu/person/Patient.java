@@ -2,7 +2,6 @@ package ir.ac.kntu.person;
 
 import ir.ac.kntu.department.*;
 import ir.ac.kntu.helper.Date;
-import ir.ac.kntu.logic.Hospital;
 
 public class Patient extends Person {
 
@@ -16,8 +15,6 @@ public class Patient extends Person {
     public enum Disease{
         Burn,Strike, Accident,Else;
     }
-
-    private Hospital hospital;
 
     private Date joinDate;
     private Disease disease;
@@ -39,9 +36,6 @@ public class Patient extends Person {
         super(id, firstName, lastName, "patient");
     }
 
-    public void setHospital(Hospital hospital) {
-        this.hospital = hospital;
-    }
 
     public void setAge(int age) {
         this.age = age;
@@ -113,8 +107,8 @@ public class Patient extends Person {
 
     @Override
     public boolean addPerson(Person person) {
-        if (!hospital.getPatients().contains(person)) {
-            hospital.getPatients().add((Patient) person);
+        if (!department.getPatients().contains(person)) {
+            department.getPatients().add((Patient) person);
             System.out.println("patient added successfully!");
             return true;
         }
@@ -124,7 +118,7 @@ public class Patient extends Person {
 
     @Override
     public Person getPerson(String personId) {
-        for (Patient patient : hospital.getPatients()) {
+        for (Patient patient : department.getPatients()) {
             if (patient.getId().equals(personId)) {
                 return patient;
             }

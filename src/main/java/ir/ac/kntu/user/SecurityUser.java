@@ -9,7 +9,6 @@ public class SecurityUser {
         PATIENT,DOCTOR,NURSE,PERSONNEL,ROOM,EXIT,UNDEFINED
     }
 
-    private Security security;
     private Hospital hospital;
     private User user;
 

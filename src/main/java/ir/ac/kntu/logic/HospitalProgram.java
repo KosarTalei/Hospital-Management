@@ -1,5 +1,6 @@
 package ir.ac.kntu.logic;
 
+import ir.ac.kntu.department.Department;
 import ir.ac.kntu.department.Item;
 import ir.ac.kntu.helper.ScannerWrapper;
 import ir.ac.kntu.menu.*;
@@ -55,9 +56,9 @@ public class HospitalProgram {
 
         String prompt="Enter the password(your national number):";
         String password = ScannerWrapper.getInstance().getInput(prompt);
-        Patient patient = getPatient(hospital);
+        Patient patient = getPatient(hospital.getDepartment(hospital));
         PatientUser patientUser = new PatientUser(patient);
-        patientUser.setHospital(hospital);
+        patientUser.setDepartment(hospital.getDepartment(hospital));
         hospital.setCurrentPatient(patient);
         if(patientUser.login(patient.getId(),password)){
             System.out.println("Patient successfully defined.");
@@ -67,9 +68,9 @@ public class HospitalProgram {
         }
     }
 
-    private Patient getPatient(Hospital hospital) {
+    private Patient getPatient(Department department) {
         HandleMenuOption handleMenuOption = new HandleMenuOption();
-        return handleMenuOption.getPatient(hospital);
+        return handleMenuOption.getPatient(department);
     }
 
     private void patientUserOption(Hospital hospital) {
@@ -86,11 +87,14 @@ public class HospitalProgram {
     public void signAdmin(Hospital hospital) {
         Admin admin = new Admin();
         admin = admin.signAdmin();
+        if(admin ==null){
+            return;
+        }
         admin.setHospital(hospital);
         if(admin.addUser(admin)) {
             System.out.println("Successfully signed!");
         }else {
-            System.out.println("Security already signed!");
+            System.out.println("Admin already signed!");
         }
     }
 
@@ -124,15 +128,27 @@ public class HospitalProgram {
         }
     }
 
-    public void signSecurity(Hospital hospital) {
+    public void signSecurityToUser(Hospital hospital) {
         SecurityUser securityUser = new SecurityUser();
         securityUser = securityUser.sign();
+        if(securityUser ==null){
+            return;
+        }
         securityUser.setHospital(hospital);
         if (securityUser.addUser(securityUser)){
             System.out.println("Successfully signed!");
             moreAccess(securityUser);
         }else {
             System.out.println("Security already signed!");
+        }
+    }
+
+    public void signPatient(Department department) {
+        Patient patient = getPatient(department);
+        if(patient!=null) {
+            User user = new User(patient);
+            PatientUser patientUser = new PatientUser(patient);
+            patientUser.setUser(user);
         }
     }
 
@@ -242,5 +258,4 @@ public class HospitalProgram {
             option = ItemsMenu.getInstance().getOption();
         }
     }
-
 }

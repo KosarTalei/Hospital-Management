@@ -53,6 +53,7 @@ public class Payment {
     }
 
     public double pay(Patient patient, Hospital hospital) {
+        Department department = hospital.getDepartment(hospital);
         Room room= patient.getRoom();
         int bedNum = room.getBedsNum();
 
@@ -64,7 +65,7 @@ public class Payment {
         Insurance insurance = Insurance.valueOf(booking.getCustomer().getInsurance());
         this.totalBill = insurance.sale(sum);
 
-        hospital.getPatients().remove(patient);
+        department.getPatients().remove(patient);
         room.getOccupants().remove(patient);
 
         return totalBill;

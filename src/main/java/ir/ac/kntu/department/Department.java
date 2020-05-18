@@ -1,5 +1,7 @@
 package ir.ac.kntu.department;
 
+import ir.ac.kntu.helper.ScannerWrapper;
+import ir.ac.kntu.logic.Hospital;
 import ir.ac.kntu.person.Doctor;
 import ir.ac.kntu.person.Nurse;
 import ir.ac.kntu.person.Patient;
@@ -98,5 +100,42 @@ public abstract class Department{
     @Override
     public String toString() {
         return "Department: " + name + "\r\n";
+    }
+
+
+    public Room checkRoom(Department department){
+        String prompt ="Enter the room number:";
+        String number = ScannerWrapper.getInstance().getInput(prompt);
+        return department.getRoom(number);
+    }
+
+    public Item getItem(Department department){
+        Room room = checkRoom(department);
+        String prompt="Enter item's id:";
+        String id = ScannerWrapper.getInstance().getInput(prompt);
+        Item item = new Item();
+        item = item.findItem(id,room);
+        return item;
+    }
+
+    public void addItem(Department department){
+        Room room = checkRoom(department);
+        String prompt = "Enter item's id: ";
+        String id = ScannerWrapper.getInstance().getInput(prompt);
+        try {
+            Item item = new Item(id);
+            item.addItem(item,room);
+        }catch (Exception e){
+            System.out.println("You should defined room first!");
+        }
+    }
+
+    public void removeItem(Department department){
+        Room room = checkRoom(department);
+        String prompt = "Enter item's id: ";
+        String id = ScannerWrapper.getInstance().getInput(prompt);
+        Item item = new Item();
+        item = item.findItem(id,room);
+        item.removeItem(item,room);
     }
 }

@@ -18,7 +18,7 @@ public class PatientMng {
         this.hospital = hospital;
     }
 
-    public void hospitalisation(Patient patient){
+    public void hospitalisation(Patient patient,Department department){
         String nationalNum = getString("Enter Patient National num:");
         patient.setNationalNum(nationalNum);
 
@@ -30,9 +30,6 @@ public class PatientMng {
 
         scanIllness(patient);
 
-        String dpName = getString("Enter the department:\\n" + "EMG \n" + "Burn \n" + "ICU \n" + "Main \n");
-
-        Department department =  hospital.getDepartment(dpName,hospital);
         patient.setDepartment(department);
 
         scanDate(patient);
@@ -40,7 +37,7 @@ public class PatientMng {
 
         PersonnelMng personnelMng = newPersonnelMng();
 
-        if(!dpName.equals("EMG")) {
+        if(!department.getName().equals("Emergency")) {
             personnelMng.asinDoctor(patient, department);
             personnelMng.asinNurse(patient, department);
         }else {
@@ -186,11 +183,11 @@ public class PatientMng {
     }
 
     public Hospital updatePatientDetails(Patient.ChangeOption option, Hospital hospital) {
-        String prompt = "Enter patient id:";
-        String id = ScannerWrapper.getInstance().getInput(prompt);
+
+        String id = ScannerWrapper.getInstance().getInput("Enter patient id:");
 
         Patient patient = new Patient();
-        patient.setHospital(hospital);
+        patient.setDepartment(hospital.getDepartment(hospital));
         patient = (Patient)patient.getPerson(id);
         switch (option) {
             case FIRST_NAME:case LAST_NAME:
@@ -215,7 +212,7 @@ public class PatientMng {
                 System.out.println("Patient updated !");
                 break;
             case ILLNESS:
-                prompt = "Enter new Patient illness:";
+                String prompt = "Enter new Patient illness:";
                 Disease disease = Disease.valueOf(ScannerWrapper.getInstance().getInput(prompt));
                 patient.setDisease(disease);
                 System.out.println("Patient updated !");

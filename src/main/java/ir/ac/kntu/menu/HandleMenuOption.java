@@ -88,10 +88,14 @@ public class HandleMenuOption {
                 nurse2.printSchedule();
                 break;
             case ADD_SHIFT:
+                department = getDepartment(hospital);
+                nurse.setDepartment(department);
                 nurse.printNurses();
                 personnelMng.input("nurse");
                 break;
             case REMOVE_SHIFT:
+                department = getDepartment(hospital);
+                nurse.setDepartment(department);
                 nurse.printNurses();
                 personnelMng.removeFromNurseSchedule();
                 break;

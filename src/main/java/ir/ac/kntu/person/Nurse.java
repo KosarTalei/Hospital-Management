@@ -151,10 +151,10 @@ public class Nurse extends Person implements ShiftManagement{
     }
 
     public void printNurses() {
-        int i = 1;
+        int i = 0;
         for (Object obj : department.getNurses()) {
             Nurse emp = (Nurse) obj;
-            System.out.print("Nurse #" + i);
+            System.out.print("Nurse #" + 0);
             emp.printSchedule();
             i++;
         }

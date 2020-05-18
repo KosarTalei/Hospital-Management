@@ -36,7 +36,7 @@ public class PatientMng {
         asinRoom(patient, department);
 
         PersonnelMng personnelMng = newPersonnelMng();
-
+        System.out.println(department.getName());
         if(!department.getName().equals("Emergency")) {
             personnelMng.asinDoctor(patient, department);
             personnelMng.asinNurse(patient, department);

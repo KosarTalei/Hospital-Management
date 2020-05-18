@@ -1,19 +1,12 @@
 package ir.ac.kntu.menu;
 
 import ir.ac.kntu.department.*;
-import ir.ac.kntu.helper.Date;
-import ir.ac.kntu.helper.ScannerWrapper;
-import ir.ac.kntu.logic.Hospital;
-import ir.ac.kntu.logic.HospitalProgram;
-import ir.ac.kntu.manage.PatientMng;
-import ir.ac.kntu.manage.PersonnelMng;
+import ir.ac.kntu.helper.*;
+import ir.ac.kntu.logic.*;
+import ir.ac.kntu.manage.*;
 import ir.ac.kntu.person.*;
 import ir.ac.kntu.shift.TimeSpan;
-import ir.ac.kntu.user.Admin;
-import ir.ac.kntu.user.PatientUser;
-import ir.ac.kntu.user.SecurityUser;
-import ir.ac.kntu.user.User;
-
+import ir.ac.kntu.user.*;
 import java.util.ArrayList;
 
 public class HandleMenuOption {
@@ -21,7 +14,6 @@ public class HandleMenuOption {
     public HandleMenuOption(){
         this.hospitalProgram= new  HospitalProgram();
     }
-
     public Hospital handleTheOption(Hospital hospital, HospitalProgram.Option option){
         switch (option) {
             case DEFINE_HOSPITAL:
@@ -72,28 +64,35 @@ public class HandleMenuOption {
     public Hospital handleNurseOption(Doctor.Option option,Hospital hospital) {
         PersonnelMng personnelMng = new PersonnelMng();
         personnelMng.setHospital(hospital);
+        Nurse nurse = new Nurse();
+        nurse.setHospital(hospital);
         switch (option){
             case ADD:
                 personnelMng.createPerson();
                 break;
             case SEE:
-                Nurse nurse = getNurse(hospital);
-                System.out.println(nurse);
+                try {
+                    Nurse nurse3 = getNurse(hospital);
+                    System.out.println(nurse3);
+                    nurse3.printPatients();
+                }catch (Exception e){
+                    System.out.println("Nurse doesnt exist!");
+                }
                 break;
             case DELETE:
                 Nurse nurse1 = getNurse(hospital);
-                hospital.getNurses().remove(nurse1);
+                nurse1.removeNurse(nurse1);
                 break;
             case SHIFTS:
                 Nurse nurse2 = getNurse(hospital);
                 nurse2.printSchedule();
                 break;
             case ADD_SHIFT:
-                personnelMng.printNurses();
+                nurse.printNurses();
                 personnelMng.input("nurse");
                 break;
             case REMOVE_SHIFT:
-                personnelMng.printNurses();
+                nurse.printNurses();
                 personnelMng.removeFromNurseSchedule();
                 break;
             default:
@@ -110,25 +109,27 @@ public class HandleMenuOption {
         nurse = (Nurse) nurse.getPerson(id);
         return nurse;
     }
-
     public Hospital handleDoctorOption(Doctor.Option option,Hospital hospital) {
         PersonnelMng personnelMng = new PersonnelMng();
         personnelMng.setHospital(hospital);
+        Doctor doctor = new Doctor();
+        doctor.setHospital(hospital);
         switch (option){
             case ADD:
                 personnelMng.createPerson();
                 break;
             case SEE:
-                Doctor doctor = getDoctor(hospital);
                 try {
-                    System.out.println(doctor);
+                    Doctor doc = getDoctor(hospital);
+                    System.out.println(doc);
+                    doc.printPatients();
                 }catch (Exception e){
                     System.out.println("Doctor doesnt exist!");
                 }
                 break;
             case DELETE:
                 Doctor doctor1 = getDoctor(hospital);
-                hospital.getDoctors().remove(doctor1);
+                doctor1.removeDoctor(doctor1);
                 break;
             case SHIFTS:
                 Doctor doctor2 = getDoctor(hospital);
@@ -136,11 +137,11 @@ public class HandleMenuOption {
                 doctor2.printSchedule();
                 break;
             case ADD_SHIFT:
-                personnelMng.printDoctors();
+                doctor.printDoctors();
                 personnelMng.input("doctor");
                 break;
             case REMOVE_SHIFT:
-                personnelMng.printDoctors();
+                doctor.printDoctors();
                 personnelMng.removeFromDocSchedule();
                 break;
             default:
@@ -158,10 +159,11 @@ public class HandleMenuOption {
         doctor = (Doctor)doctor.getPerson(id);
         return doctor;
     }
-
     public Hospital handleFacilityOption(Doctor.Option option,Hospital hospital){
         PersonnelMng personnelMng = new PersonnelMng();
         personnelMng.setHospital(hospital);
+        Facilities facilities = new Facilities();
+        facilities.setHospital(hospital);
         switch (option){
             case ADD:
                 personnelMng.createPerson();
@@ -184,11 +186,11 @@ public class HandleMenuOption {
                 facility2.printSchedule();
                 break;
             case ADD_SHIFT:
-                personnelMng.printDoctors();
+                facilities.printFacility();
                 personnelMng.input("facility");
                 break;
             case REMOVE_SHIFT:
-                personnelMng.printFacility();
+                facilities.printFacility();
                 personnelMng.removeFromFacSchedule();
                 break;
             default:
@@ -206,7 +208,6 @@ public class HandleMenuOption {
         facilities = (Facilities)facilities.getPerson(id);
         return facilities;
     }
-
     public Hospital handlePatientOption(Patient.Option option,Hospital hospital) {
         PatientMng patientMng = new PatientMng();
         patientMng.setHospital(hospital);
@@ -253,22 +254,22 @@ public class HandleMenuOption {
         patient = (Patient) patient.getPerson(id);
         return patient;
     }
-
     public Hospital handleSecurityUserOption(SecurityUser.Option option, Hospital hospital) {
         switch (option){
             case PATIENT:
-                Patient patient = getPatient(hospital);
-                System.out.println(patient);
+                System.out.println(getPatient(hospital));
                 break;
             case DOCTOR:
                 System.out.println(getDoctor(hospital));
                 break;
             case NURSE:
                 System.out.println(getNurse(hospital));
-                //case PERSONNEL:
+                break;
+            case PERSONNEL:
+                System.out.println(getFacility(hospital));
                 break;
             case ROOM:
-                Room room = checkRoom();
+                Room room = checkRoom(hospital);
                 System.out.println(room);
                 break;
             default:
@@ -277,20 +278,17 @@ public class HandleMenuOption {
         }
         return hospital;
     }
-
     public void failItem(Room room){
         printItem(room);
-        int empChoice = Integer.parseInt(ScannerWrapper.getInstance().getInput("Which item?"));
+        int empChoice = Integer.parseInt(ScannerWrapper.getInstance().getInput(" Which item?"));
         Item item = room.getItems().get(empChoice);
         item.setHealthy(false);
     }
-
     private void printItem(Room room) {
         int i = 0;
-        System.out.println(":"+room);
-        System.out.println("::"+room.getItems());
+        System.out.println("*"+room);
         for (Item item : room.getItems()) {
-            System.out.print("Item #" + i+" "+item.getItemName());
+            System.out.println("Item #" + i+" "+item);
             i++;
         }
     }
@@ -299,11 +297,10 @@ public class HandleMenuOption {
 
         System.out.println("0 Mon 1 Tue 2 Wed 3 Thr 4 Fri 5 Sat 6 Sun");
         int day = Integer.parseInt(ScannerWrapper.getInstance().getInput("now day?"));
-        Room room = checkRoom();
-        System.out.println("_"+room.getRoomNum());
+        Room room = checkRoom(hospital);
         failItem(room);
         float start = Float.parseFloat(ScannerWrapper.getInstance().getInput("Enter report time:"));
-        float end = start;
+        float end = start + 1;
         TimeSpan tSpan = new TimeSpan(start, end);
         for(Facilities facility : hospital.getFacilities()) {
             if(sayFacility(facility,tSpan,room,day)){
@@ -315,6 +312,7 @@ public class HandleMenuOption {
     }
     private void checkFacility(Facilities facility){
         Room room = facility.getRoom();
+
         for(Item item : room.getItems()){
             if(!item.getHealthy()){
                 item.setHealthy(true);
@@ -322,80 +320,46 @@ public class HandleMenuOption {
                 PatientMng patientMng = new PatientMng();
                 Date date = patientMng.getDate("check up");
                 item.setCheckUp(date);
-                System.out.println("facility"+facility+"checked"+item.getItemName()+"of this room");
+                System.out.println("facility"+facility+" checked "+item.getItemName()+" of this room");
             }
         }
     }
 
     private boolean sayFacility(Facilities facility,TimeSpan time,Room room,int day) {
         ArrayList<Object> list = facility.getDaySchedule(day, 1);
-        int i = 0;
+
         for (Object obj : list) {
             TimeSpan tSpan = (TimeSpan) obj;
             if( tSpan.getTimeIn() <= time.getTimeIn() && time.getTimeIn()<= time.getTimeOut() ){
                 facility.setCheck(false);
                 facility.setRoom(room);
-                System.out.println(facility+"The facility was selected");
+                System.out.println("Facility "+facility+" was selected");
                 return true;
             }
-            System.out.print(tSpan.getTimeIn());
-            System.out.println(tSpan.getTimeOut());
-            i++;
         }
         return false;
     }
-
-    public Room checkRoom(){
+    public Room checkRoom(Hospital hospital){
         String prompt="Enter the room's department:";
         String dp = ScannerWrapper.getInstance().getInput(prompt);
         prompt ="Enter the room number:";
         String number = ScannerWrapper.getInstance().getInput(prompt);
-        Department department = getDepartment(dp);
-        System.out.println("+"+department.getName());
-        //assert department != null;
-        Room room = getRoom(number, department);/////////////////////////////////////////////
-        System.out.println("++"+room);
-        System.out.println("+++"+room.getRoomNum());
-        return room;
+        Department department = hospital.getDepartment(dp,hospital);
+        assert department != null;
+        return department.getRoom(number);
     }
-
-    private Room getRoom(String number, Department department) {
-        for (Room room : department.getRooms()){
-            if (room.getRoomNum().equals(number)){
-                return room;
-            }
-        }
-        return null;
-    }
-
-    private Department getDepartment(String dp){
-        switch (dp) {
-            case "Main":
-                return new Main();
-            case "ICU":
-                return new ICU();
-            case "Burn":
-                return new Burn();
-            case "Emergency":
-                return new Emergency();
-            default:
-                System.out.println("Wrong department!");
-                break;				
-        }
-        return null;
-    }
-
     public Hospital handleSecurityOption(Doctor.Option option,Hospital hospital) {
         PersonnelMng personnelMng = new PersonnelMng();
         personnelMng.setHospital(hospital);
+        Security security = new Security();
+        security.setHospital(hospital);
         switch (option){
             case ADD:
                 personnelMng.createPerson();
                 break;
             case SEE:
-                Security security = getSecurity(hospital);
                 try {
-                    System.out.println(security);
+                    System.out.println(getSecurity(hospital));
                 }catch (Exception e){
                     System.out.println("Security doesnt exist!");
                 }
@@ -410,11 +374,11 @@ public class HandleMenuOption {
                 security2.printSchedule();
                 break;
             case ADD_SHIFT:
-                personnelMng.printSecurities();
+                security.printSecurities();
                 personnelMng.input("security");
                 break;
             case REMOVE_SHIFT:
-                personnelMng.printSecurities();
+                security.printSecurities();
                 personnelMng.removeFromSecSchedule();
                 break;
             default:
@@ -423,7 +387,6 @@ public class HandleMenuOption {
         }
         return hospital;
     }
-
     public Security getSecurity(Hospital hospital) {
         String prompt ="Enter security id:";
         String id = ScannerWrapper.getInstance().getInput(prompt);
@@ -432,7 +395,6 @@ public class HandleMenuOption {
         security = (Security) security.getPerson(id);
         return security;
     }
-
     public Hospital handleAdminOption(Admin.Option option, Hospital hospital) {
         switch (option){
             case SIGN_ADMIN:
@@ -469,8 +431,8 @@ public class HandleMenuOption {
             case FACILITY_MENU:
                 hospitalProgram.facilityOption(hospital);
                 break;
-            case REPORT:
-                failureReport(hospital);
+            case ITEM_MENU:
+                hospitalProgram.itemOption(hospital);
                 break;
             default:
                 System.out.println("Invalid choice!");
@@ -478,5 +440,60 @@ public class HandleMenuOption {
         }
         return hospital;
     }
-
+    public Hospital handleItemOption(Item.Option option, Hospital hospital) {
+        switch (option){
+            case FAIL:
+                failureReport(hospital);
+                break;
+            case SEE_ROOM:
+                Room room = checkRoom(hospital);
+                room.printItems();
+                break;
+            case SEE_CHECKUP:
+                Item itemCheck = getItem(hospital);
+                System.out.println("Last checkup: "+itemCheck.getCheckUp());
+                break;
+            case HEALTH:
+                Item itemHealth = getItem(hospital);
+                System.out.println("Item is healthy? "+itemHealth.getHealthy());
+                break;
+            case ADD:
+                addItem(hospital);
+                break;
+            case REMOVE:
+                removeItem(hospital);
+                break;
+            default:
+                System.out.println("Invalid choice!");
+                break;
+        }
+        return hospital;
+    }
+    private Item getItem(Hospital hospital){
+        Room room = checkRoom(hospital);
+        String prompt="Enter item's id:";
+        String id = ScannerWrapper.getInstance().getInput(prompt);
+        Item item = new Item();
+        item = item.findItem(id,room);
+        return item;
+    }
+    public void addItem(Hospital hospital){
+        Room room = checkRoom(hospital);
+        String prompt = "Enter item's id: ";
+        String id = ScannerWrapper.getInstance().getInput(prompt);
+        try {
+            Item item = new Item(id);
+            item.addItem(item,room);
+        }catch (Exception e){
+            System.out.println("You should defined room first!");
+        }
+    }
+    public void removeItem(Hospital hospital){
+        Room room = checkRoom(hospital);
+        String prompt = "Enter item's id: ";
+        String id = ScannerWrapper.getInstance().getInput(prompt);
+        Item item = new Item();
+        item = item.findItem(id,room);
+        item.removeItem(item,room);
+    }
 }

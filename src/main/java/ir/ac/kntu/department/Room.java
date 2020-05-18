@@ -13,9 +13,9 @@ public class Room{
     private ArrayList<Patient> occupants;
 
     private ArrayList<Item> items;
-    private boolean hasTV;
-    private boolean hasRefrigerator;
-    private boolean hasAirConditioner;
+    private boolean tv;
+    private boolean refrigerator;
+    private boolean airConditioner;
     private String roomClass;
 
     public Room(){
@@ -38,16 +38,16 @@ public class Room{
         return items;
     }
 
-    public void setHasAirConditioner(boolean hasAirConditioner) {
-        this.hasAirConditioner = hasAirConditioner;
+    public void setAirConditioner(boolean airConditioner) {
+        this.airConditioner = airConditioner;
     }
 
-    public void setHasRefrigerator(boolean hasRefrigerator) {
-        this.hasRefrigerator = hasRefrigerator;
+    public void setRefrigerator(boolean refrigerator) {
+        this.refrigerator = refrigerator;
     }
 
-    public void setHasTV(boolean hasTV) {
-        this.hasTV = hasTV;
+    public void setTv(boolean tv) {
+        this.tv = tv;
     }
 
     public void setRoomClass(String roomClass) {
@@ -87,6 +87,15 @@ public class Room{
         return null;
     }
 
+    public void printItems(){
+        int i = 1;
+        for (Item item : items) {
+            System.out.println("Item #" + i );
+            System.out.println(item.toString());
+            i++;
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -106,14 +115,13 @@ public class Room{
 
     @Override
     public String toString() {
-        return "Room{" +
+        return
                 "department=" + department.getName() +
                 ", bedsNum=" + bedsNum +
                 ", roomNum='" + roomNum + '\'' +
-                ", hasTV=" + hasTV +
-                ", hasRefrigerator=" + hasRefrigerator +
-                ", hasAirConditioner=" + hasAirConditioner +
-                ", roomClass='" + roomClass + '\'' +
-                '}';
+                ", hasTV=" + tv +
+                ", hasRefrigerator=" + refrigerator +
+                ", hasAirConditioner=" + airConditioner +
+                ", roomClass='" + roomClass + '\'';
     }
 }

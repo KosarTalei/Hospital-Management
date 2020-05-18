@@ -1,5 +1,6 @@
 package ir.ac.kntu.logic;
 
+import ir.ac.kntu.department.*;
 import ir.ac.kntu.person.*;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.SecurityUser;
@@ -10,6 +11,14 @@ import java.util.Objects;
 
 public class Hospital {
 
+    private Department main;
+    private Department icu;
+    private Department burn;
+    private Department emergency;
+
+
+
+
     private Admin currentAdmin;
     private SecurityUser currentSecurityUser;
     private Patient currentPatient;
@@ -17,7 +26,7 @@ public class Hospital {
     private List<Admin> admins;
     private List<SecurityUser> securitiesUser;
     private List<Patient> patients;
-    private List<Person> persons;///
+    private List<Person> persons;
     private ArrayList<Security> securities;
     private ArrayList<Nurse> nurses;
     private ArrayList<Doctor> doctors;
@@ -46,6 +55,30 @@ public class Hospital {
         doctors = new ArrayList<Doctor>();
         nurses = new ArrayList<Nurse>();
         facilities = new ArrayList<Facilities>();
+        newDepartment();
+    }
+
+    public void newDepartment(){
+        this.main = new Main();
+        this.icu = new ICU();
+        this.burn = new Burn();
+        this.emergency = new Emergency();
+    }
+
+    public Department getIcu() {
+        return icu;
+    }
+
+    public Department getBurn() {
+        return burn;
+    }
+
+    public Department getMain() {
+        return main;
+    }
+
+    public Department getEmergency() {
+        return emergency;
     }
 
     public void setCurrentAdmin(Admin currentAdmin) {
@@ -106,6 +139,22 @@ public class Hospital {
 
     public List<SecurityUser> getSecuritiesUser() {
         return securitiesUser;
+    }
+
+    public Department getDepartment(String dp, Hospital hospital){
+        switch (dp) {
+            case "EMG":
+                return hospital.getEmergency();
+            case "Burn":
+                return hospital.getBurn();
+            case "ICU":
+                return hospital.getIcu();
+            case "Main":
+                return hospital.getMain();
+            default:
+                System.out.println("Wrong choice! ");
+        }
+        return null;
     }
 
     public boolean equals(Object obj) {

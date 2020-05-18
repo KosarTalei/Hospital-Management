@@ -7,7 +7,6 @@ import ir.ac.kntu.logic.Hospital;
 import ir.ac.kntu.person.*;
 import ir.ac.kntu.shift.MasterSchedule;
 import ir.ac.kntu.shift.TimeSpan;
-
 import java.util.ArrayList;
 
 public class PersonnelMng {
@@ -40,6 +39,10 @@ public class PersonnelMng {
         prompt = "Enter id:";
         String id = ScannerWrapper.getInstance().getInput(prompt);
 
+        return getPerson(firstName, lastName, position, id);
+    }
+
+    private Person getPerson(String firstName, String lastName, String position, String id) {
         switch (position) {
             case "patient":
                 return createPatient(firstName, lastName, id);
@@ -85,7 +88,7 @@ public class PersonnelMng {
         MasterSchedule master = new MasterSchedule();
         master.add(day, time);
         master.generateSchedule(hospital.getFacilities(),"facility");
-        facility.printSchedule();
+        //facility.printSchedule();
     }
 
     private Person createSecurity(String firstName, String lastName, String id) {
@@ -114,7 +117,7 @@ public class PersonnelMng {
         MasterSchedule master = new MasterSchedule();
         master.add(day, time);
         master.generateSchedule(hospital.getSecurities(),"security");
-        security.printSchedule();
+        //security.printSchedule();
     }
 
     private Person createNurse(String firstName, String lastName, String id) {
@@ -144,7 +147,7 @@ public class PersonnelMng {
         MasterSchedule master = new MasterSchedule();
         master.add(day, time);
         master.generateSchedule(hospital.getNurses(),"nurse");
-        nurse.printSchedule();
+        //nurse.printSchedule();
     }
 
     private TimeSpan getTimeSpan(int mn, int mx) {
@@ -177,7 +180,7 @@ public class PersonnelMng {
         }
         MasterSchedule master = new MasterSchedule();
         master.generateSchedule(hospital.getDoctors(),"doctor");
-        doctor.printSchedule();
+        //doctor.printSchedule();
     }
 
     private Person createPatient(String firstName, String lastName, String id) {
@@ -185,36 +188,6 @@ public class PersonnelMng {
         patient.setHospital(hospital);
         patient.addPerson(patient);
         return patient;
-    }
-
-    public void printFacility() {
-        int i = 0;
-        for (Object obj : hospital.getFacilities()) {
-            Facilities emp = (Facilities) obj;
-            System.out.print("Facility #" + i);
-            emp.printSchedule();
-            i++;
-        }
-    }
-
-    public void printDoctors() {
-        int i = 0;
-        for (Object obj : hospital.getDoctors()) {
-            Doctor emp = (Doctor) obj;
-            System.out.print("Doctor #" + i);
-            emp.printSchedule();
-            i++;
-        }
-    }
-
-    public void printSecurities() {
-        int i = 0;
-        for (Object obj : hospital.getSecurities()) {
-            Security emp = (Security) obj;
-            System.out.print("Security #" + i);
-            emp.printSchedule();
-            i++;
-        }
     }
 
     public void input(String position){
@@ -225,6 +198,11 @@ public class PersonnelMng {
         int day = Integer.parseInt(ScannerWrapper.getInstance().getInput("Which day?"));
         float start = Float.parseFloat(ScannerWrapper.getInstance().getInput("Start time?"));
         float end = Float.parseFloat(ScannerWrapper.getInstance().getInput("End time?"));
+
+        getPosition(position, empChoice, schChoice, day, start, end);
+    }
+
+    private void getPosition(String position, int empChoice, int schChoice, int day, float start, float end) {
         switch (position) {
             case "doctor":
                 addToDocSchedule(empChoice, schChoice, day, start, end);
@@ -240,7 +218,7 @@ public class PersonnelMng {
                 break;
             default:
                 System.out.println("Wrong position!");
-                break;	
+                break;
         }
     }
 
@@ -277,15 +255,6 @@ public class PersonnelMng {
         emp.removeShift(day, span, schChoice);
     }
 
-    public void printNurses() {
-        int i = 0;
-        for (Object obj : hospital.getNurses()) {
-            Nurse emp = (Nurse) obj;
-            System.out.print("Nurse #" + i);
-            emp.printSchedule();
-            i++;
-        }
-    }
     public void addToNurseSchedule(int empChoice,int schChoice,int day,float start , float end) {
         TimeSpan tSpan = new TimeSpan(start, end);
         Nurse emp = hospital.getNurses().get(empChoice);
@@ -334,9 +303,9 @@ public class PersonnelMng {
     }
 
     private void addNurse(Patient patient, Nurse nurse) {
-        nurse.getNursePatientList().add(patient);
         nurse.setHospital(hospital);
         patient.setNurse(nurse);
+        nurse.addPatient(patient);
     }
 
     private Nurse randomNurse(Department department){
@@ -361,8 +330,8 @@ public class PersonnelMng {
 
     private void addDoctor(Patient patient, Doctor doctor) {
         doctor.setHospital(hospital);
-        doctor.getDoctorPatientList().add(patient);
         patient.setDoctor(doctor);
+        doctor.addPatient(patient);
     }
 
     private Doctor randomDoctor(Department department){

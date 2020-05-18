@@ -1,5 +1,6 @@
 package ir.ac.kntu.logic;
 
+import ir.ac.kntu.department.Item;
 import ir.ac.kntu.helper.ScannerWrapper;
 import ir.ac.kntu.menu.*;
 import ir.ac.kntu.person.Doctor;
@@ -149,10 +150,12 @@ public class HospitalProgram {
             System.out.println("Security should signed first!");
         }
     }
+
     private Security getSecurity(Hospital hospital) {
         HandleMenuOption handleMenuOption = new HandleMenuOption();
         return handleMenuOption.getSecurity(hospital);
     }
+
     public void securityOption(Hospital hospital) {
         PersonnelMenu.getInstance().printTheMenu();
         Doctor.Option option= PersonnelMenu.getInstance().getOption();
@@ -214,6 +217,17 @@ public class HospitalProgram {
             hospital = handleMenuOption.handleSecurityUserOption(option,hospital);
             SecurityMenu.getInstance().printUserMenu();
             option = SecurityMenu.getInstance().getOption();
+        }
+    }
+
+    public void itemOption(Hospital hospital) {
+        ItemsMenu.getInstance().printTheMenu();
+        Item.Option option= ItemsMenu.getInstance().getOption();
+        HandleMenuOption handleMenuOption = new HandleMenuOption();
+        while (option != Item.Option.EXIT) {
+            hospital = handleMenuOption.handleItemOption(option,hospital);
+            ItemsMenu.getInstance().printTheMenu();
+            option = ItemsMenu.getInstance().getOption();
         }
     }
 

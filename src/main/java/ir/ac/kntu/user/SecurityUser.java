@@ -32,8 +32,7 @@ public class SecurityUser {
         prompt="Enter the password:";
         String password = ScannerWrapper.getInstance().getInput(prompt);
 
-        SecurityUser security = new SecurityUser(userName,password,"Security");
-        return security;
+        return new SecurityUser(userName,password,"Security");
     }
 
     public boolean login(String userName,String password) {

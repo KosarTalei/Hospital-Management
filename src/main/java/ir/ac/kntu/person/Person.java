@@ -94,7 +94,7 @@ public abstract class Person {
     @Override
     public String toString() {
         return
-                ", id='" + id + '\''+
+                "id='" + id + '\''+
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'';
     }

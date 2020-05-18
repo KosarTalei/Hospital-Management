@@ -17,7 +17,7 @@ public class Patient extends Person {
     public enum Disease{
         Burn,Strike, Accident,Else;
     }
-    private User user;
+
     private Hospital hospital;
 
     private Date joinDate;
@@ -135,15 +135,14 @@ public class Patient extends Person {
 
     @Override
     public String toString() {
-        return
-                super.toString() +
+        return super.toString() +
                 ", age=" + age +
                 ", gender='" + gender + '\'' +
                 ", nationalNum='" + nationalNum + '\'' +
                 ", insurance='" + insurance + '\'' +
                 ", disease=" + disease +
-                ", department=" + department.getName() +
                 ", room=" + room +
-                ", doctor=" + doctor.getFirstName() + doctor.getLastName();
+                ", doctor=" + doctor.getFirstName() + doctor.getLastName() +
+                ", nurse=" + nurse.getFirstName() + nurse.getLastName();
     }
 }

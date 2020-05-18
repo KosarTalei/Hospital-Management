@@ -12,25 +12,6 @@ public class Emergency extends Department {
     }
 
     @Override
-    boolean addPerson(Person person) {
-        if (!getPersons().contains(person)) {
-            getPersons().add(person);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    Person getPerson(String personId) {
-        for (Person person : getPersons()) {
-            if (person.getId().equals(personId)) {
-                return person;
-            }
-        }
-        return null;
-    }
-
-    @Override
     boolean addPatient(Patient patient) {
         if (!getPatients().contains(patient)) {
             getPatients().add(patient);
@@ -88,7 +69,7 @@ public class Emergency extends Department {
     }
 
     @Override
-    boolean addRoom(Room room) {
+    public boolean addRoom(Room room) {
         if (!getRooms().contains(room)) {
             getRooms().add(room);
             return true;
@@ -97,7 +78,7 @@ public class Emergency extends Department {
     }
 
     @Override
-    Room getRoom(String roomId) {
+    public Room getRoom(String roomId) {
         for (Room room : getRooms()) {
             if (room.getRoomNum().equals(roomId)) {
                 return room;
@@ -107,7 +88,7 @@ public class Emergency extends Department {
     }
 
     @Override
-    boolean removeRoom(String roomId) {
+    public boolean removeRoom(String roomId) {
         return false;
     }
 

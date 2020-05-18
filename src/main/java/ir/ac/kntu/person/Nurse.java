@@ -40,6 +40,28 @@ public class Nurse extends Person implements ShiftManagement{
         scheduleHolder.add(shiftsTaken);
     }
 
+    public boolean addPatient(Patient patient) {
+        if (!nursePatientList.contains(patient)) {
+            patient.setHospital(hospital);
+            nursePatientList.add(patient);
+            System.out.println("patient added to nurse list successfully!");
+            return true;
+        }
+        System.out.println("patient already exist!");
+        return false;
+    }
+
+    public boolean removeNurse(Nurse nurse){
+        for (Patient patient : nursePatientList){
+            System.out.println(patient);
+            patient.setNurse(null);
+            System.out.println("nurse successfully removed!");
+            System.out.println("should add to another nurse.");
+        }
+        hospital.getNurses().remove(nurse);
+        return true;
+    }
+
     public void setHospital(Hospital hospital) {
         this.hospital = hospital;
     }
@@ -126,5 +148,35 @@ public class Nurse extends Person implements ShiftManagement{
 
     public ArrayList<Patient> getNursePatientList() {
         return nursePatientList;
+    }
+
+    public void printNurses() {
+        int i = 1;
+        for (Object obj : hospital.getNurses()) {
+            Nurse emp = (Nurse) obj;
+            System.out.print("Nurse #" + i);
+            emp.printSchedule();
+            i++;
+        }
+    }
+
+    public void printPatients() {
+        int i = 1;
+        for (Patient emp : nursePatientList) {
+            System.out.println("Patient #" + i);
+            System.out.println(emp.toString());
+            i++;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Nurse{" +
+                super.toString() +
+                "hospital=" + hospital.getName() +
+                ", maxHrs=" + maxHrs +
+                ", minHrs=" + minHrs +
+                ", nursePatientList=" + nursePatientList.size() +" patients" +
+                "} ";
     }
 }

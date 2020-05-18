@@ -5,10 +5,10 @@ import ir.ac.kntu.logic.Hospital;
 import ir.ac.kntu.shift.Schedule;
 import ir.ac.kntu.shift.ShiftManagement;
 import ir.ac.kntu.shift.TimeSpan;
-
 import java.util.ArrayList;
 
 public class Facilities extends Person implements ShiftManagement {
+
     private Hospital hospital;
 
     private Schedule shiftsTaken;
@@ -143,5 +143,22 @@ public class Facilities extends Person implements ShiftManagement {
 
     public Schedule getShiftsTaken() {
         return shiftsTaken;
+    }
+
+    public void printFacility() {
+        int i = 0;
+        for (Object obj : hospital.getFacilities()) {
+            Facilities emp = (Facilities) obj;
+            System.out.print("Facility #" + i);
+            emp.printSchedule();
+            i++;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return super.toString()+
+                ", maxHrs=" + maxHrs +
+                ", minHrs=" + minHrs;
     }
 }

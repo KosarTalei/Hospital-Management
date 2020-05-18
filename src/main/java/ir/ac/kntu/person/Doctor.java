@@ -48,6 +48,24 @@ public class Doctor extends Person implements ShiftManagement {
         scheduleHolder.add(shiftsTaken);
     }
 
+    public void addPatient(Patient patient) {
+        if (!doctorPatientList.contains(patient)) {
+            patient.setHospital(hospital);
+            doctorPatientList.add(patient);
+            System.out.println("patient added to doctor list successfully!");
+            return;
+        }
+        System.out.println("patient already exist!");
+    }
+    public void removeDoctor(Doctor doctor){
+        for (Patient patient : doctorPatientList){
+            System.out.println(patient);
+            patient.setDoctor(null);
+            System.out.println("doctor successfully removed!");
+            System.out.println("should add to another doctor.");
+        }
+        hospital.getDoctors().remove(doctor);
+    }
     @Override
     public boolean addPerson(Person person) {
         if (!hospital.getDoctors().contains(person)) {
@@ -62,7 +80,6 @@ public class Doctor extends Person implements ShiftManagement {
 
     @Override
     public Person getPerson(String personId) {
-        System.out.println(hospital);
         for (Doctor doctor : hospital.getDoctors()) {
             if (doctor.getId().equals(personId)) {
                 return doctor;
@@ -136,6 +153,23 @@ public class Doctor extends Person implements ShiftManagement {
         return doctorPatientList;
     }
 
+    public void printDoctors() {
+        int i = 0;
+        for (Object obj : hospital.getDoctors()) {
+            Doctor emp = (Doctor) obj;
+            System.out.print("Doctor #" + i);
+            emp.printSchedule();
+            i++;
+        }
+    }
+    public void printPatients() {
+        int i = 1;
+        for (Patient emp : doctorPatientList) {
+            System.out.println("Patient #" + i );
+            System.out.println(emp.toString());
+            i++;
+        }
+    }
     @Override
     public String toString() {
         return "Doctor{" +
@@ -143,7 +177,7 @@ public class Doctor extends Person implements ShiftManagement {
                 "hospital=" + hospital.getName() +
                 ", maxHrs=" + maxHrs +
                 ", minHrs=" + minHrs +
-                ", doctorPatientList=" + doctorPatientList +
+                ", doctorPatientList=" + doctorPatientList.size() + "patients" +
                 "} ";
     }
 }

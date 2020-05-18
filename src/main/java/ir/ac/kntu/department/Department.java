@@ -3,7 +3,6 @@ package ir.ac.kntu.department;
 import ir.ac.kntu.person.Doctor;
 import ir.ac.kntu.person.Nurse;
 import ir.ac.kntu.person.Patient;
-import ir.ac.kntu.person.Person;
 
 import java.util.ArrayList;
 
@@ -15,8 +14,6 @@ public abstract class Department{
     private ArrayList<Patient> patients;
     private ArrayList<Room> rooms;
 
-    private ArrayList<Person> persons;
-
     public Department(String name) {
         this.name = name;
         doctors = new ArrayList<Doctor>();
@@ -25,12 +22,11 @@ public abstract class Department{
         rooms = new ArrayList<Room>();
     }
 
-    public String getName() {
-        return name;
+    public Department(){
     }
 
-    public ArrayList<Person> getPersons() {
-        return persons;
+    public String getName() {
+        return name;
     }
 
     public ArrayList<Patient> getPatients() {
@@ -49,9 +45,6 @@ public abstract class Department{
         return rooms;
     }
 
-    abstract boolean addPerson(Person person);
-    abstract Person getPerson(String personId);//remove
-
     abstract boolean addPatient(Patient patient);
     abstract Patient getPatient(String patientId);
 
@@ -61,9 +54,9 @@ public abstract class Department{
     abstract boolean addDoctor(Doctor doctor);
     abstract Doctor getDoctor(String doctorId);
 
-    abstract boolean addRoom(Room room);
-    abstract Room getRoom(String roomId);
-    abstract boolean removeRoom(String roomId);
+    public abstract boolean addRoom(Room room);
+    public abstract Room getRoom(String roomId);
+    public abstract boolean removeRoom(String roomId);
 
     public int hashCode() {
         final int prime = 31;

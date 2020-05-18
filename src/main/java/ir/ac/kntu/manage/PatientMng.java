@@ -21,43 +21,69 @@ public class PatientMng {
     }
 
     public void hospitalisation(Patient patient){
+        scanNationalNum(patient);
+        scanAge(patient, "Enter Patient Age:");
+        scanGender(patient);
+        scanIllness(patient);
 
-        String prompt ="Enter Patient National num:";
-        String num= ScannerWrapper.getInstance().getInput(prompt);
-        patient.setNationalNum(num);
+        String dpName = getString("Enter the department:\\n" + "EMG \n" + "Burn \n" + "ICU \n" + "Main \n");
 
-        prompt="Enter Patient Age:";
-        int age = Integer.parseInt(ScannerWrapper.getInstance().getInput(prompt));
-        patient.setAge(age);
+        Department department = assignDepartment(dpName,hospital);
+        patient.setDepartment(department);
 
-        prompt="Enter Patient gender:";
-        String gender = ScannerWrapper.getInstance().getInput(prompt);
-        patient.setGender(gender);
+        scanDate(patient);
+        asinRoom(patient, department);
 
-        prompt= "Enter patient insurance: TAMIN - MOSALAH - DARMANI";
-        String insurance = ScannerWrapper.getInstance().getInput(prompt);
+        PersonnelMng personnelMng = new PersonnelMng();
+        personnelMng.setHospital(hospital);
+
+        if(!dpName.equals("EMG")) {
+            personnelMng.asinDoctor(patient, department);
+            personnelMng.asinNurse(patient, department);
+        }else {
+            System.out.println("you are in EMG department.");
+            System.out.println("you dont have specific doctor and nurses!");
+        }
+    }
+
+    private void scanDate(Patient patient) {
+        Date entryDate = getDate("entry");
+        patient.setJoinDate(entryDate);
+    }
+
+    private void scanIllness(Patient patient) {
+        String prompt;
+        String insurance = getString("Enter patient insurance: TAMIN - MOSALAH - DARMANI");
         patient.setInsurance(insurance);
 
         prompt ="Enter Patient illness from down:\\n"
                 +" Burn \n"+" Strike \n"+" Accident \n"+" Else \n";
         Disease disease = Disease.valueOf(ScannerWrapper.getInstance().getInput(prompt));
         patient.setDisease(disease);
+    }
 
-        prompt="Enter the department:\\n"+
-                "EMG \n" + "Burn \n" + "ICU \n" + "Main \n";
-        String dpName = ScannerWrapper.getInstance().getInput(prompt);
-        Department department = assignDepartment(dpName);
-        patient.setDepartment(department);
+    private String getString(String s) {
+        String prompt;
+        prompt = s;
+        return ScannerWrapper.getInstance().getInput(prompt);
+    }
 
-        asinRoom(patient, department);
+    private void scanGender(Patient patient) {
+        String gender = getString("Enter Patient gender:");
+        patient.setGender(gender);
+    }
 
-        Date entryDate = getDate("entry");
-        patient.setJoinDate(entryDate);
+    private void scanAge(Patient patient, String s) {
+        String prompt;
+        prompt = s;
+        int age = Integer.parseInt(ScannerWrapper.getInstance().getInput(prompt));
+        patient.setAge(age);
+    }
 
-        PersonnelMng personnelMng = new PersonnelMng();
-        personnelMng.setHospital(hospital);
-        personnelMng.asinDoctor(patient,department);
-        personnelMng.asinNurse(patient,department);
+    private void scanNationalNum(Patient patient) {
+        String prompt ="Enter Patient National num:";
+        String num= ScannerWrapper.getInstance().getInput(prompt);
+        patient.setNationalNum(num);
     }
 
     private void asinRoom(Patient patient, Department department) {
@@ -67,22 +93,23 @@ public class PatientMng {
         }
         if(department.getRooms().size() == 0) {
             String roomNum = String.valueOf(RandomHelper.nextInt(100-1) + 1);
-            System.out.println("your room number: "+roomNum);
             room = new Room(roomNum, RandomHelper.nextInt(6) + 1, department);
         }else {
             room = randomRoom(department);
         }
         room.setRoomClass("Normal");
+        randomItem(room,patient);
         addRoom(patient, room);
-        department.getRooms().add(room);
-        System.out.println("#"+department.getRooms());
-        randomItem(room);
+        if(department.addRoom(room)){
+            System.out.println("patient room number is:"+room.getRoomNum());
+        }else {
+            System.out.println("this room already exist!");
+        }
     }
 
     private void addRoom(Patient patient, Room room) {
         room.addOccupant(patient);
         patient.setRoom(room);
-        System.out.println("!"+patient.getRoom().getRoomNum());
     }
 
     private boolean icuRoom(Patient patient, Department department) {
@@ -106,34 +133,42 @@ public class PatientMng {
         return randomRoom(department);
     }
 
-    private void randomItem(Room room){
+    private void randomItem(Room room,Patient patient){
+        String id = String.valueOf(RandomHelper.nextInt());
         if(RandomHelper.nextBoolean()){
-            Item item = new Item("002","hasTV");
-            room.setItems(item);
-            room.setHasTV(true);
+            id = "002".concat(id);
+            newItem(room, id,patient);
+            room.setTv(true);
         }
         if (RandomHelper.nextBoolean()){
-            Item item = new Item("003","hasAirConditioner");
-            room.setItems(item);
-            room.setHasAirConditioner(true);
+            id = "003".concat(id);
+            newItem(room, id,patient);
+            room.setAirConditioner(true);
         }
         if (RandomHelper.nextBoolean()){
-            Item item = new Item("001","hasRefrigerator");
-            room.setItems(item);
-            room.setHasRefrigerator(true);
+            id = "001".concat(id);
+            newItem(room, id,patient);
+            room.setRefrigerator(true);
         }
     }
 
-    private Department assignDepartment(String dpName) {
+    private void newItem(Room room, String id,Patient patient) {
+        Item item = new Item(id);
+        item.setHealthy(true);
+        item.setCheckUp(patient.getJoinDate());
+        room.setItems(item);
+    }
+
+    private Department assignDepartment(String dpName,Hospital hospital) {
         switch (dpName) {
             case "EMG":
-                return new Emergency();
+                return hospital.getEmergency();
             case "Burn":
-                return new Burn();
+                return hospital.getBurn();
             case "ICU":
-                return new ICU();
+                return hospital.getIcu();
             case "Main":
-                return new Main();
+                return hospital.getMain();
             default:
                 System.out.println("Wrong choice! ");
         }
@@ -166,44 +201,41 @@ public class PatientMng {
     public Hospital handleChangeOption(Patient.ChangeOption option, Hospital hospital) {
         String prompt = "Enter person position:";
         String position = ScannerWrapper.getInstance().getInput(prompt);
-        prompt ="Enter person ID you want to update:";
-        String idNum = ScannerWrapper.getInstance().getInput(prompt);
 
         if ("patient".equals(position)) {
-            Patient patient = new Patient();
-            patient = (Patient) patient.getPerson(idNum);
-            changeOption(hospital);
+            updatePatientDetails(option,hospital);
+        }else {
+            System.out.println("Wrong position!");
         }
-        System.out.println("Wrong position!");
         return hospital;
     }
 
     public Hospital updatePatientDetails(Patient.ChangeOption option, Hospital hospital) {
         String prompt = "Enter patient id:";
         String id = ScannerWrapper.getInstance().getInput(prompt);
+
         Patient patient = new Patient();
         patient.setHospital(hospital);
         patient = (Patient)patient.getPerson(id);
         switch (option) {
             case FIRST_NAME:case LAST_NAME:
-                prompt = "Enter new patient's firstName:";
-                String firstName = ScannerWrapper.getInstance().getInput(prompt);
+                String firstName = getString("Enter new patient's firstName:");
                 patient.setFirstName(firstName);
-                prompt = "Enter new patient's lastName:";
-                String lastName = ScannerWrapper.getInstance().getInput(prompt);
+                String lastName = getString("Enter new patient's lastName:");
                 patient.setLastName(lastName);
                 System.out.println("Patient updated !");
                 break;
             case INSURANCE:
-                prompt = "Enter new patient insurance:";
-                String insurance = ScannerWrapper.getInstance().getInput(prompt);
-                patient.setInsurance(insurance);
-                System.out.println("Patient updated !");
+                try {
+                    String insurance = getString("Enter new patient insurance:");
+                    patient.setInsurance(insurance);
+                    System.out.println("Patient updated !");
+                }catch (Exception e){
+                    System.out.println("Entered wrong insurance!");
+                }
                 break;
             case AGE:
-                prompt = "Enter new Patient age:";
-                int age = Integer.parseInt(ScannerWrapper.getInstance().getInput(prompt));
-                patient.setAge(age);
+                scanAge(patient, "Enter new Patient age:");
                 System.out.println("Patient updated !");
                 break;
             case ILLNESS:

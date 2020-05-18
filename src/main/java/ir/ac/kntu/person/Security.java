@@ -115,10 +115,19 @@ public class Security extends Person implements ShiftManagement {
         }
     }
 
+    public void printSecurities() {
+        int i = 0;
+        for (Object obj : hospital.getSecurities()) {
+            Security emp = (Security) obj;
+            System.out.print("Security #" + i);
+            emp.printSchedule();
+            i++;
+        }
+    }
+
     @Override
     public String toString() {
         return "Security{" + super.toString() +
-                "shiftsTaken=" + shiftsTaken +
                 ", maxHrs=" + maxHrs +
                 ", minHrs=" + minHrs +
                 "} ";

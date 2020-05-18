@@ -3,30 +3,12 @@ package ir.ac.kntu.department;
 import ir.ac.kntu.person.Doctor;
 import ir.ac.kntu.person.Nurse;
 import ir.ac.kntu.person.Patient;
-import ir.ac.kntu.person.Person;
 
 public class Main extends Department {
+
     public Main() {
+
         super("Main");
-    }
-
-    @Override
-    public boolean addPerson(Person person) {
-        if (!getPersons().contains(person)) {
-            getPersons().add(person);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public Person getPerson(String personId) {
-        for (Person person : getPersons()) {
-            if (person.getId().equals(personId)) {
-                return person;
-            }
-        }
-        return null;
     }
 
     @Override

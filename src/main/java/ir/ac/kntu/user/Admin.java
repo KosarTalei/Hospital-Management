@@ -4,9 +4,10 @@ import ir.ac.kntu.helper.ScannerWrapper;
 import ir.ac.kntu.logic.Hospital;
 
 public class Admin {
+
     public enum Option{
         SIGN_ADMIN,SIGN_SECURITY,SIGN_PATIENT,PATIENT_MENU,DOCTOR_MENU,NURSE_MENU,
-        SECURITY_MENU,FACILITY_MENU,REPORT,EXIT, UNDEFINED
+        SECURITY_MENU,FACILITY_MENU,ITEM_MENU,EXIT, UNDEFINED
     }
 
     private Hospital hospital;

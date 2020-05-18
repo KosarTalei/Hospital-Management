@@ -72,8 +72,9 @@ public class Payment {
 
     @Override
     public String toString() {
-        return "Payment{" +
+        return
                 "patient=" + booking.getCustomer().toString() +
+                "Payment{" +
                 ", Days stayed=" + getDaysStayed() +
                 ", Bill for one bed=" + perBed +
                 ", dailyBill=" + dailyBill +

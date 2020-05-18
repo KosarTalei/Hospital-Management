@@ -28,7 +28,7 @@ public class SecurityMenu {
         System.out.println("1.Patient data");
         System.out.println("2.Doctor data");
         System.out.println("3.Nurse data");
-        System.out.println("4.Other personnel data");
+        System.out.println("4.Facility data");
         System.out.println("5.Rooms data");
         System.out.println("6-Exit.");
         System.out.println("***********************************");

@@ -90,12 +90,13 @@ public class Date {
     public String toString() {
         switch (separator) {
             case DASH:
-                return year + "-" + month + "-" + day + "-" + hour;
+                return year + "-" + month + "-" + day;
             case COLON:
-                return year + ":" + month + ":" + day + "-" + hour;
-			default:
-                return year + "-" + month + "-" + day + "-" + hour;			
+                return year + ":" + month + ":" + day;
+            default:
+                System.out.println("Can't print date.");				
         }
+        return year + "-" + month + "-" + day;
     }
 
     public Date nextDay() {
@@ -192,17 +193,15 @@ public class Date {
         if (finalYear == 0) {
             int finalMonth =leaveDate.getMonth() - joinDate.getMonth();
             if(finalMonth == 0){
-                int finalDay = leaveDate.getDay() - joinDate.getDay();
-                return finalDay;
+                return leaveDate.getDay() - joinDate.getDay();
             }else {
-                int finalDay = leaveDate.getDay() + (checkMonth(joinDate) - joinDate.getDay());
-                return finalDay;
+                return leaveDate.getDay() + (checkMonth(joinDate) - joinDate.getDay());
             }
         } else {
-            int finalDay = isLeapYear(joinDate.getYear()) ? 366 + leaveDate.getDay() : 365 + leaveDate.getDay();
-            return finalDay;
+            return isLeapYear(joinDate.getYear()) ? 366 + leaveDate.getDay() : 365 + leaveDate.getDay();
         }
     }
+
     private static int checkMonth(Date joinDate){
 
         switch (joinDate.getMonth()){

@@ -8,6 +8,7 @@ public class SecurityUser {
     public enum Option{
         PATIENT,DOCTOR,NURSE,PERSONNEL,ROOM,EXIT,UNDEFINED
     }
+
     private Security security;
     private Hospital hospital;
     private User user;
@@ -74,10 +75,16 @@ public class SecurityUser {
 
     public boolean correctUsername(String userName) {
         for(Security security: hospital.getSecurities()){
-            if(user.getUserName().equals(userName)){//
+            if(user.getUserName().equals(userName)){
                 return true;
             }
         }
         return false;
+    }
+    public String getUserName(){
+        return user.getUserName();
+    }
+    public String getPassword(){
+        return user.getPassword();
     }
 }

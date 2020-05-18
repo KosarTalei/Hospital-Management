@@ -9,6 +9,7 @@ import ir.ac.kntu.person.Security;
 import ir.ac.kntu.user.Admin;
 import ir.ac.kntu.user.PatientUser;
 import ir.ac.kntu.user.SecurityUser;
+import ir.ac.kntu.user.User;
 
 public class HospitalProgram {
 
@@ -129,8 +130,19 @@ public class HospitalProgram {
         securityUser.setHospital(hospital);
         if (securityUser.addUser(securityUser)){
             System.out.println("Successfully signed!");
+            moreAccess(securityUser);
         }else {
             System.out.println("Security already signed!");
+        }
+    }
+
+    public void moreAccess(SecurityUser securityUser){
+        String prompt = "Do you want more access to admin for the user? y/n";
+        String choice = ScannerWrapper.getInstance().getInput(prompt);
+        if(choice.equals("y")){
+            Admin admin = new Admin();
+            admin.signAdmin(securityUser);
+            admin.isAllowedToDoThis();
         }
     }
 

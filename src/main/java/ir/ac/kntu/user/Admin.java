@@ -37,6 +37,12 @@ public class Admin {
         return new Admin(userName,password,"admin");
     }
 
+    public Admin signAdmin(SecurityUser user){
+        String userName = user.getUserName();
+        String password = user.getPassword();
+        return new Admin(userName,password,"admin");
+    }
+
     private void setPassword(String password) {
         user.setPassword(password);
     }
@@ -53,7 +59,7 @@ public class Admin {
         return isAuthenticated && isAuthorized;
     }
 
-    private boolean isAllowedToDoThis() { 
+    public boolean isAllowedToDoThis() {
 	    return true;
 	}
 

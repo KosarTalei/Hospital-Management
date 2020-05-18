@@ -14,6 +14,7 @@ public class HandleMenuOption {
     public HandleMenuOption(){
         this.hospitalProgram= new  HospitalProgram();
     }
+
     public Hospital handleTheOption(Hospital hospital, HospitalProgram.Option option){
         switch (option) {
             case DEFINE_HOSPITAL:
@@ -101,6 +102,7 @@ public class HandleMenuOption {
         }
         return hospital;
     }
+
     private Nurse getNurse(Hospital hospital) {
         String prompt ="Enter nurse id:";
         String id = ScannerWrapper.getInstance().getInput(prompt);
@@ -109,6 +111,7 @@ public class HandleMenuOption {
         nurse = (Nurse) nurse.getPerson(id);
         return nurse;
     }
+
     public Hospital handleDoctorOption(Doctor.Option option,Hospital hospital) {
         PersonnelMng personnelMng = new PersonnelMng();
         personnelMng.setHospital(hospital);
@@ -159,6 +162,7 @@ public class HandleMenuOption {
         doctor = (Doctor)doctor.getPerson(id);
         return doctor;
     }
+
     public Hospital handleFacilityOption(Doctor.Option option,Hospital hospital){
         PersonnelMng personnelMng = new PersonnelMng();
         personnelMng.setHospital(hospital);
@@ -208,6 +212,7 @@ public class HandleMenuOption {
         facilities = (Facilities)facilities.getPerson(id);
         return facilities;
     }
+
     public Hospital handlePatientOption(Patient.Option option,Hospital hospital) {
         PatientMng patientMng = new PatientMng();
         patientMng.setHospital(hospital);
@@ -254,6 +259,7 @@ public class HandleMenuOption {
         patient = (Patient) patient.getPerson(id);
         return patient;
     }
+
     public Hospital handleSecurityUserOption(SecurityUser.Option option, Hospital hospital) {
         switch (option){
             case PATIENT:
@@ -278,23 +284,16 @@ public class HandleMenuOption {
         }
         return hospital;
     }
+
     public void failItem(Room room){
-        printItem(room);
+        Item printItem = new Item();
+        printItem.printItem(room);
         int empChoice = Integer.parseInt(ScannerWrapper.getInstance().getInput(" Which item?"));
         Item item = room.getItems().get(empChoice);
         item.setHealthy(false);
     }
-    private void printItem(Room room) {
-        int i = 0;
-        System.out.println("*"+room);
-        for (Item item : room.getItems()) {
-            System.out.println("Item #" + i+" "+item);
-            i++;
-        }
-    }
 
     public void failureReport(Hospital hospital){
-
         System.out.println("0 Mon 1 Tue 2 Wed 3 Thr 4 Fri 5 Sat 6 Sun");
         int day = Integer.parseInt(ScannerWrapper.getInstance().getInput("now day?"));
         Room room = checkRoom(hospital);
@@ -310,9 +309,9 @@ public class HandleMenuOption {
         }
         System.out.println("No facilities are currently available at the hospital.");
     }
+
     private void checkFacility(Facilities facility){
         Room room = facility.getRoom();
-
         for(Item item : room.getItems()){
             if(!item.getHealthy()){
                 item.setHealthy(true);
@@ -327,7 +326,6 @@ public class HandleMenuOption {
 
     private boolean sayFacility(Facilities facility,TimeSpan time,Room room,int day) {
         ArrayList<Object> list = facility.getDaySchedule(day, 1);
-
         for (Object obj : list) {
             TimeSpan tSpan = (TimeSpan) obj;
             if( tSpan.getTimeIn() <= time.getTimeIn() && time.getTimeIn()<= time.getTimeOut() ){
@@ -339,6 +337,7 @@ public class HandleMenuOption {
         }
         return false;
     }
+
     public Room checkRoom(Hospital hospital){
         String prompt="Enter the room's department:";
         String dp = ScannerWrapper.getInstance().getInput(prompt);
@@ -348,6 +347,7 @@ public class HandleMenuOption {
         assert department != null;
         return department.getRoom(number);
     }
+
     public Hospital handleSecurityOption(Doctor.Option option,Hospital hospital) {
         PersonnelMng personnelMng = new PersonnelMng();
         personnelMng.setHospital(hospital);
@@ -387,6 +387,7 @@ public class HandleMenuOption {
         }
         return hospital;
     }
+
     public Security getSecurity(Hospital hospital) {
         String prompt ="Enter security id:";
         String id = ScannerWrapper.getInstance().getInput(prompt);
@@ -395,18 +396,14 @@ public class HandleMenuOption {
         security = (Security) security.getPerson(id);
         return security;
     }
+
     public Hospital handleAdminOption(Admin.Option option, Hospital hospital) {
         switch (option){
             case SIGN_ADMIN:
                 hospitalProgram.signAdmin(hospital);
                 break;
             case SIGN_SECURITY:
-                Security security = getSecurity(hospital);
-                if(security != null) {
-                    hospitalProgram.signSecurity(hospital);
-                }else {
-                    System.out.println("this security doesnt exist!");
-                }
+                hospitalProgram.signSecurity(hospital);
                 break;
             case SIGN_PATIENT:
                 Patient patient = getPatient(hospital);
@@ -440,6 +437,7 @@ public class HandleMenuOption {
         }
         return hospital;
     }
+
     public Hospital handleItemOption(Item.Option option, Hospital hospital) {
         switch (option){
             case FAIL:
@@ -469,6 +467,7 @@ public class HandleMenuOption {
         }
         return hospital;
     }
+
     private Item getItem(Hospital hospital){
         Room room = checkRoom(hospital);
         String prompt="Enter item's id:";

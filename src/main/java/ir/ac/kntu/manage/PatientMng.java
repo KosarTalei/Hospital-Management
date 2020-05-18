@@ -1,9 +1,7 @@
 package ir.ac.kntu.manage;
 
 import ir.ac.kntu.department.*;
-import ir.ac.kntu.helper.Date;
-import ir.ac.kntu.helper.RandomHelper;
-import ir.ac.kntu.helper.ScannerWrapper;
+import ir.ac.kntu.helper.*;
 import ir.ac.kntu.logic.Hospital;
 import ir.ac.kntu.menu.PatientMenu;
 import ir.ac.kntu.person.Patient;
@@ -21,21 +19,26 @@ public class PatientMng {
     }
 
     public void hospitalisation(Patient patient){
-        scanNationalNum(patient);
-        scanAge(patient, "Enter Patient Age:");
-        scanGender(patient);
+        String nationalNum = getString("Enter Patient National num:");
+        patient.setNationalNum(nationalNum);
+
+        int age = Integer.parseInt(getString("Enter Patient Age:"));
+        patient.setAge(age);
+
+        String gender = getString("Enter Patient gender:");
+        patient.setGender(gender);
+
         scanIllness(patient);
 
         String dpName = getString("Enter the department:\\n" + "EMG \n" + "Burn \n" + "ICU \n" + "Main \n");
 
-        Department department = assignDepartment(dpName,hospital);
+        Department department =  hospital.getDepartment(dpName,hospital);
         patient.setDepartment(department);
 
         scanDate(patient);
         asinRoom(patient, department);
 
-        PersonnelMng personnelMng = new PersonnelMng();
-        personnelMng.setHospital(hospital);
+        PersonnelMng personnelMng = newPersonnelMng();
 
         if(!dpName.equals("EMG")) {
             personnelMng.asinDoctor(patient, department);
@@ -44,6 +47,12 @@ public class PatientMng {
             System.out.println("you are in EMG department.");
             System.out.println("you dont have specific doctor and nurses!");
         }
+    }
+
+    private PersonnelMng newPersonnelMng() {
+        PersonnelMng personnelMng = new PersonnelMng();
+        personnelMng.setHospital(hospital);
+        return personnelMng;
     }
 
     private void scanDate(Patient patient) {
@@ -55,7 +64,6 @@ public class PatientMng {
         String prompt;
         String insurance = getString("Enter patient insurance: TAMIN - MOSALAH - DARMANI");
         patient.setInsurance(insurance);
-
         prompt ="Enter Patient illness from down:\\n"
                 +" Burn \n"+" Strike \n"+" Accident \n"+" Else \n";
         Disease disease = Disease.valueOf(ScannerWrapper.getInstance().getInput(prompt));
@@ -66,24 +74,6 @@ public class PatientMng {
         String prompt;
         prompt = s;
         return ScannerWrapper.getInstance().getInput(prompt);
-    }
-
-    private void scanGender(Patient patient) {
-        String gender = getString("Enter Patient gender:");
-        patient.setGender(gender);
-    }
-
-    private void scanAge(Patient patient, String s) {
-        String prompt;
-        prompt = s;
-        int age = Integer.parseInt(ScannerWrapper.getInstance().getInput(prompt));
-        patient.setAge(age);
-    }
-
-    private void scanNationalNum(Patient patient) {
-        String prompt ="Enter Patient National num:";
-        String num= ScannerWrapper.getInstance().getInput(prompt);
-        patient.setNationalNum(num);
     }
 
     private void asinRoom(Patient patient, Department department) {
@@ -159,22 +149,6 @@ public class PatientMng {
         room.setItems(item);
     }
 
-    private Department assignDepartment(String dpName,Hospital hospital) {
-        switch (dpName) {
-            case "EMG":
-                return hospital.getEmergency();
-            case "Burn":
-                return hospital.getBurn();
-            case "ICU":
-                return hospital.getIcu();
-            case "Main":
-                return hospital.getMain();
-            default:
-                System.out.println("Wrong choice! ");
-        }
-        return null;
-    }
-
     public Date getDate(String dateName) {
         String prompt="Enter the " + dateName + " year: ";
         int year = Integer.parseInt(ScannerWrapper.getInstance().getInput(prompt));
@@ -201,7 +175,6 @@ public class PatientMng {
     public Hospital handleChangeOption(Patient.ChangeOption option, Hospital hospital) {
         String prompt = "Enter person position:";
         String position = ScannerWrapper.getInstance().getInput(prompt);
-
         if ("patient".equals(position)) {
             updatePatientDetails(option,hospital);
         }else {
@@ -235,7 +208,8 @@ public class PatientMng {
                 }
                 break;
             case AGE:
-                scanAge(patient, "Enter new Patient age:");
+                int age = Integer.parseInt(getString("Enter Patient Age:"));
+                patient.setAge(age);
                 System.out.println("Patient updated !");
                 break;
             case ILLNESS:

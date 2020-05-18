@@ -109,6 +109,15 @@ public class Item {
         return itemName;
     }
 
+    public void printItem(Room room) {
+        int i = 0;
+        System.out.println("*"+room);
+        for (Item item : room.getItems()) {
+            System.out.println("Item #" + i+" "+item);
+            i++;
+        }
+    }
+
     @Override
     public String toString() {
         return

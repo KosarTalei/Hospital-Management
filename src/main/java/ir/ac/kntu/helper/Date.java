@@ -94,7 +94,7 @@ public class Date {
             case COLON:
                 return year + ":" + month + ":" + day;
             default:
-                System.out.println("Can't print date.");				
+                System.out.println("Can't print date.");
         }
         return year + "-" + month + "-" + day;
     }

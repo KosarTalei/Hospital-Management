@@ -87,7 +87,9 @@ public class PatientMng {
         }else {
             room = randomRoom(department);
         }
-        room.setRoomClass("Normal");
+
+        String roomType = ScannerWrapper.getInstance().getInput("Normal/Vip room? ");
+        room.setRoomClass(roomType);
         randomItem(room,patient);
         addRoom(patient, room);
         if(department.addRoom(room)){

@@ -3,7 +3,6 @@ package ir.ac.kntu.person;
 import ir.ac.kntu.department.*;
 import ir.ac.kntu.helper.Date;
 import ir.ac.kntu.logic.Hospital;
-import ir.ac.kntu.user.User;
 
 public class Patient extends Person {
 

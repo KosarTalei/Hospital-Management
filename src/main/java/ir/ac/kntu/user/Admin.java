@@ -12,12 +12,20 @@ public class Admin {
 
     private Hospital hospital;
     private User user;
+    private String commonPass;
 
     public Admin(){
+        setCommonPass("AdminUser");
     }
 
     public Admin(String userName, String password,String role){
+
         this.user = new User(userName,password,"Admin");
+        setCommonPass("AdminUser");
+    }
+
+    public void setCommonPass(String commonPass) {
+        this.commonPass = commonPass;
     }
 
     public void setHospital(Hospital hospital) {
@@ -29,12 +37,16 @@ public class Admin {
     }
 
     public Admin signAdmin(){
-        String prompt="Enter the userName:";
-        String userName = ScannerWrapper.getInstance().getInput(prompt);
-        prompt="Enter the password:";
-        String password = ScannerWrapper.getInstance().getInput(prompt);
-
-        return new Admin(userName,password,"admin");
+        String prompt = "Enter Admin's pass:";
+        String pass = ScannerWrapper.getInstance().getInput(prompt);
+        if(pass.equals(commonPass)) {
+            String userName = ScannerWrapper.getInstance().getInput("Enter the userName:");
+            String password = ScannerWrapper.getInstance().getInput("Enter the password:");
+            return new Admin(userName, password, "admin");
+        }else {
+            System.out.println("You have entered wrong admin's password!");
+        }
+        return null;
     }
 
     public Admin signAdmin(SecurityUser user){
